@@ -7,3 +7,6 @@ CMakeCache.txt
 cmake-build-debug/
 CMakeFiles/
 CGL184/
+CMakeLists.txt
+src/CMakeLists.txt
+Makefile

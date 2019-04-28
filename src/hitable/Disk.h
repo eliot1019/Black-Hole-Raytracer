@@ -1,8 +1,10 @@
 #ifndef BLACKHOLERAYTRACER_DISK_H
 #define BLACKHOLERAYTRACER_DISK_H
 
+#include "CGL/CGL.h"
 
-namespace CGL184 {
+
+namespace CGL {
   struct Disk {
      double radiusInner;
      double radiusOuter;
