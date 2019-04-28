@@ -121,9 +121,9 @@ if(NOT WIN32)
     find_package(Freetype REQUIRED)
 endif()
 
-# CGL
-add_subdirectory(CGL)
-include_directories(CGL/include)
+# CGL184
+add_subdirectory(CGL184)
+include_directories(CGL184/include)
 
 #-------------------------------------------------------------------------------
 # Add subdirectories

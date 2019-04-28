@@ -126,14 +126,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(CMAKE_COMMAND) -E cmake_progress_start /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles /Users/eliothan/cs/cs184/blackhole-raytracer/CGL184/CMakeFiles/progress.marks
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,83 +143,18 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-#=============================================================================
-# Target rules for targets named glew
-
-# Build rule for target.
-glew: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glew
-.PHONY : glew
-
-# fast build rule for target.
-glew/fast:
-	$(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/build
-.PHONY : glew/fast
-
-#=============================================================================
-# Target rules for targets named uninstall
-
-# Build rule for target.
-uninstall: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uninstall
-.PHONY : uninstall
-
-# fast build rule for target.
-uninstall/fast:
-	$(MAKE) -f CGL184/deps/glfw/CMakeFiles/uninstall.dir/build.make CGL184/deps/glfw/CMakeFiles/uninstall.dir/build
-.PHONY : uninstall/fast
-
-#=============================================================================
-# Target rules for targets named glfw
-
-# Build rule for target.
-glfw: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glfw
-.PHONY : glfw
-
-# fast build rule for target.
-glfw/fast:
-	$(MAKE) -f CGL184/deps/glfw/src/CMakeFiles/glfw.dir/build.make CGL184/deps/glfw/src/CMakeFiles/glfw.dir/build
-.PHONY : glfw/fast
-
-#=============================================================================
-# Target rules for targets named CGL
-
-# Build rule for target.
-CGL: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 CGL
-.PHONY : CGL
-
-# fast build rule for target.
-CGL/fast:
-	$(MAKE) -f CGL184/src/CMakeFiles/CGL.dir/build.make CGL184/src/CMakeFiles/CGL.dir/build
-.PHONY : CGL/fast
-
-#=============================================================================
-# Target rules for targets named blackholetracer
-
-# Build rule for target.
-blackholetracer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 blackholetracer
-.PHONY : blackholetracer
-
-# fast build rule for target.
-blackholetracer/fast:
-	$(MAKE) -f src/CMakeFiles/blackholetracer.dir/build.make src/CMakeFiles/blackholetracer.dir/build
-.PHONY : blackholetracer/fast
 
 # Help Target
 help:
@@ -233,11 +168,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... glew"
-	@echo "... uninstall"
-	@echo "... glfw"
-	@echo "... CGL"
-	@echo "... blackholetracer"
 .PHONY : help
 
 
@@ -249,6 +179,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

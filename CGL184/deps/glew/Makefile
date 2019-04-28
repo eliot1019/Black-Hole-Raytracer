@@ -126,14 +126,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(CMAKE_COMMAND) -E cmake_progress_start /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles /Users/eliothan/cs/cs184/blackhole-raytracer/CGL184/deps/glew/CMakeFiles/progress.marks
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/deps/glew/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/eliothan/cs/cs184/blackhole-raytracer/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/deps/glew/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,83 +143,114 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/deps/glew/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/deps/glew/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named glew
+# Convenience name for target.
+CGL184/deps/glew/CMakeFiles/glew.dir/rule:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CMakeFiles/Makefile2 CGL184/deps/glew/CMakeFiles/glew.dir/rule
+.PHONY : CGL184/deps/glew/CMakeFiles/glew.dir/rule
 
-# Build rule for target.
-glew: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glew
+# Convenience name for target.
+glew: CGL184/deps/glew/CMakeFiles/glew.dir/rule
+
 .PHONY : glew
 
 # fast build rule for target.
 glew/fast:
-	$(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/build
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/build
 .PHONY : glew/fast
 
-#=============================================================================
-# Target rules for targets named uninstall
+src/glew.o: src/glew.c.o
 
-# Build rule for target.
-uninstall: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uninstall
-.PHONY : uninstall
+.PHONY : src/glew.o
 
-# fast build rule for target.
-uninstall/fast:
-	$(MAKE) -f CGL184/deps/glfw/CMakeFiles/uninstall.dir/build.make CGL184/deps/glfw/CMakeFiles/uninstall.dir/build
-.PHONY : uninstall/fast
+# target to build an object file
+src/glew.c.o:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/glew.c.o
+.PHONY : src/glew.c.o
 
-#=============================================================================
-# Target rules for targets named glfw
+src/glew.i: src/glew.c.i
 
-# Build rule for target.
-glfw: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 glfw
-.PHONY : glfw
+.PHONY : src/glew.i
 
-# fast build rule for target.
-glfw/fast:
-	$(MAKE) -f CGL184/deps/glfw/src/CMakeFiles/glfw.dir/build.make CGL184/deps/glfw/src/CMakeFiles/glfw.dir/build
-.PHONY : glfw/fast
+# target to preprocess a source file
+src/glew.c.i:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/glew.c.i
+.PHONY : src/glew.c.i
 
-#=============================================================================
-# Target rules for targets named CGL
+src/glew.s: src/glew.c.s
 
-# Build rule for target.
-CGL: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 CGL
-.PHONY : CGL
+.PHONY : src/glew.s
 
-# fast build rule for target.
-CGL/fast:
-	$(MAKE) -f CGL184/src/CMakeFiles/CGL.dir/build.make CGL184/src/CMakeFiles/CGL.dir/build
-.PHONY : CGL/fast
+# target to generate assembly for a file
+src/glew.c.s:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/glew.c.s
+.PHONY : src/glew.c.s
 
-#=============================================================================
-# Target rules for targets named blackholetracer
+src/glewinfo.o: src/glewinfo.c.o
 
-# Build rule for target.
-blackholetracer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 blackholetracer
-.PHONY : blackholetracer
+.PHONY : src/glewinfo.o
 
-# fast build rule for target.
-blackholetracer/fast:
-	$(MAKE) -f src/CMakeFiles/blackholetracer.dir/build.make src/CMakeFiles/blackholetracer.dir/build
-.PHONY : blackholetracer/fast
+# target to build an object file
+src/glewinfo.c.o:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/glewinfo.c.o
+.PHONY : src/glewinfo.c.o
+
+src/glewinfo.i: src/glewinfo.c.i
+
+.PHONY : src/glewinfo.i
+
+# target to preprocess a source file
+src/glewinfo.c.i:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/glewinfo.c.i
+.PHONY : src/glewinfo.c.i
+
+src/glewinfo.s: src/glewinfo.c.s
+
+.PHONY : src/glewinfo.s
+
+# target to generate assembly for a file
+src/glewinfo.c.s:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/glewinfo.c.s
+.PHONY : src/glewinfo.c.s
+
+src/visualinfo.o: src/visualinfo.c.o
+
+.PHONY : src/visualinfo.o
+
+# target to build an object file
+src/visualinfo.c.o:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/visualinfo.c.o
+.PHONY : src/visualinfo.c.o
+
+src/visualinfo.i: src/visualinfo.c.i
+
+.PHONY : src/visualinfo.i
+
+# target to preprocess a source file
+src/visualinfo.c.i:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/visualinfo.c.i
+.PHONY : src/visualinfo.c.i
+
+src/visualinfo.s: src/visualinfo.c.s
+
+.PHONY : src/visualinfo.s
+
+# target to generate assembly for a file
+src/visualinfo.c.s:
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(MAKE) -f CGL184/deps/glew/CMakeFiles/glew.dir/build.make CGL184/deps/glew/CMakeFiles/glew.dir/src/visualinfo.c.s
+.PHONY : src/visualinfo.c.s
 
 # Help Target
 help:
@@ -234,10 +265,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... glew"
-	@echo "... uninstall"
-	@echo "... glfw"
-	@echo "... CGL"
-	@echo "... blackholetracer"
+	@echo "... src/glew.o"
+	@echo "... src/glew.i"
+	@echo "... src/glew.s"
+	@echo "... src/glewinfo.o"
+	@echo "... src/glewinfo.i"
+	@echo "... src/glewinfo.s"
+	@echo "... src/visualinfo.o"
+	@echo "... src/visualinfo.i"
+	@echo "... src/visualinfo.s"
 .PHONY : help
 
 
@@ -249,6 +285,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/eliothan/cs/cs184/blackhole-raytracer && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
