@@ -4,3 +4,5 @@ build
 *.cbp
 *.cmake
 CMakeCache.txt
+cmake-build-debug/
+CMakeFiles/
