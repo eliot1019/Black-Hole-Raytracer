@@ -1,0 +1,6 @@
+.DS_Store
+build
+.idea/workspace.xml
+*.cbp
+*.cmake
+CMakeCache.txt
