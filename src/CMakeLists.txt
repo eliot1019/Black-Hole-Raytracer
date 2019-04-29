@@ -1,0 +1,63 @@
+cmake_minimum_required(VERSION 2.8)
+
+# Application source
+set(APPLICATION_SOURCE
+        main.cpp
+        hitable/TexturedDisk.cpp hitable/Disk.cpp hitable/Disk.h SchwarzschildBlackHoleEquation.h)
+
+# Eliot: not sure about this
+## Windows-only sources
+#if(WIN32)
+#    list(APPEND APPLICATION_SOURCE
+#            # For get-opt
+#            misc/getopt.c
+#            )
+#endif(WIN32)
+
+#-------------------------------------------------------------------------------
+# Set include directories
+#-------------------------------------------------------------------------------
+include_directories(
+        ${GLEW_INCLUDE_DIRS}
+        ${GLFW_INCLUDE_DIRS}
+        ${CGL_INCLUDE_DIRS}
+        ${FREETYPE_INCLUDE_DIRS}
+)
+
+#-------------------------------------------------------------------------------
+# Set link directories
+#-------------------------------------------------------------------------------
+link_directories(
+        ${GLEW_LIBRARY_DIRS}
+        ${GLFW_LIBRARY_DIRS}
+        ${CGL_LIBRARY_DIRS}
+        ${FREETYPE_LIBRARY_DIRS}
+)
+
+#-------------------------------------------------------------------------------
+# Add executable
+#-------------------------------------------------------------------------------
+add_executable(blackholetracer ${APPLICATION_SOURCE})
+
+target_link_libraries( blackholetracer
+        CGL ${CGL_LIBRARIES}
+        glew ${GLEW_LIBRARIES}
+        glfw ${GLFW_LIBRARIES}
+        ${OPENGL_LIBRARIES}
+        ${FREETYPE_LIBRARIES}
+        ${CMAKE_THREADS_INIT}
+        )
+
+#-------------------------------------------------------------------------------
+# Platform-specific configurations for target
+#-------------------------------------------------------------------------------
+if(APPLE)
+    set_property( TARGET blackholetracer APPEND_STRING PROPERTY COMPILE_FLAGS
+            "-Wno-deprecated-declarations -Wno-c++11-extensions")
+endif(APPLE)
+
+# Put executable in build directory root
+set(EXECUTABLE_OUTPUT_PATH ..)
+
+# Install to project root
+install(TARGETS blackholetracer RUNTIME DESTINATION bin DESTINATION ${BlackHoleTracer_SOURCE_DIR})
