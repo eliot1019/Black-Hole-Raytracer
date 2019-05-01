@@ -1,4 +1,5 @@
 #include "Horizon.h"
+#include "../utils.h"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -28,7 +29,7 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
     double phi, Spectrum &color, bool &stop, bool debug) {
 
     if (prevSqrNorm > 1 && sqrNorm < 1) {
-        auto colpoint = IntersectionSearch(prevPoint, velocity, equation);
+        Vector3D colpoint = IntersectionSearch(prevPoint, velocity, equation);
 
         double tempR = 0., tempTheta = 0., tempPhi = 0.;
         Util.ToSpherical(colpoint.X, colpoint.Z, colpoint.Y, ref tempR, ref tempTheta, ref tempPhi); // TODO
@@ -37,8 +38,7 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         if (checkered) {
             auto m1 = Util.DoubleMod(tempTheta, 1.04719); // Pi / 3  TODO
             auto m2 = Util.DoubleMod(tempPhi, 1.04719); // Pi / 3    TODO
-            if ((m1 < 0.52359) ^ (m2 < 0.52359)) // Pi / 6
-            {
+            if ((m1 < 0.52359) ^ (m2 < 0.52359)) { // Pi / 6
                 //col = Color.Green
                 col = Spectrum(0., 1., 0.);
             }
@@ -54,4 +54,33 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         return true;
     }
     return false;
+}
+
+Vector3D Horizon::IntersectionSearch(Vector3D prevPoint, Vector3D velocity,
+                                     SchwarzschildBlackHoleEquation equation) {
+    float stepLow = 0, stepHigh = equation.StepSize;
+    Vector3D newPoint = prevPoint;
+    Vector3D tempVelocity;
+    while (true)
+    {
+        float stepMid = (stepLow + stepHigh) / 2;
+        newPoint = prevPoint;
+        tempVelocity = velocity;
+        equation.Function(&newPoint, &tempVelocity, stepMid);
+
+        double distance = newPoint.norm2();
+        if (abs(stepHigh - stepLow) < 0.00001)
+        {
+            break;
+        }
+        if (distance < radius)
+        {
+            stepHigh = stepMid;
+        }
+        else
+        {
+            stepLow = stepMid;
+        }
+    }
+    return newPoint;
 }
