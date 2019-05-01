@@ -14,6 +14,14 @@ set(APPLICATION_SOURCE
 #            )
 #endif(WIN32)
 
+#openCV
+if(WIN32)
+    set(OpenCV_DIR "d:/libs/opencv-2.4.8/build")
+else()
+    set(OpenCV_DIR "/usr/lib/opencv")
+endif()
+find_package(OpenCV REQUIRED)
+
 #-------------------------------------------------------------------------------
 # Set include directories
 #-------------------------------------------------------------------------------
@@ -22,6 +30,7 @@ include_directories(
         ${GLFW_INCLUDE_DIRS}
         ${CGL_INCLUDE_DIRS}
         ${FREETYPE_INCLUDE_DIRS}
+        ${OpenCV_INCLUDE_DIRS}
 )
 
 #-------------------------------------------------------------------------------
@@ -46,6 +55,7 @@ target_link_libraries( blackholetracer
         ${OPENGL_LIBRARIES}
         ${FREETYPE_LIBRARIES}
         ${CMAKE_THREADS_INIT}
+        ${OpenCV_LIBS}
         )
 
 #-------------------------------------------------------------------------------
