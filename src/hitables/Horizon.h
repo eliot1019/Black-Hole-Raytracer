@@ -45,8 +45,8 @@ struct Horizon {
 			double phi, Spectrum &color, bool &stop, bool debug);
 
 	protected:
-		Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity,
-			SchwarzschildBlackHoleEquation equation)
+        Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity,
+            SchwarzschildBlackHoleEquation equation);
 
 };
 
