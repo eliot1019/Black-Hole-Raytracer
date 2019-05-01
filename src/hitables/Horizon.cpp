@@ -61,24 +61,20 @@ Vector3D Horizon::IntersectionSearch(Vector3D prevPoint, Vector3D velocity,
     float stepLow = 0, stepHigh = equation.StepSize;
     Vector3D newPoint = prevPoint;
     Vector3D tempVelocity;
-    while (true)
-    {
+    while (true) {
         float stepMid = (stepLow + stepHigh) / 2;
         newPoint = prevPoint;
         tempVelocity = velocity;
         equation.Function(&newPoint, &tempVelocity, stepMid);
 
         double distance = newPoint.norm2();
-        if (abs(stepHigh - stepLow) < 0.00001)
-        {
+        if (abs(stepHigh - stepLow) < 0.00001) {
             break;
         }
-        if (distance < radius)
-        {
+        if (distance < radius) {
             stepHigh = stepMid;
         }
-        else
-        {
+        else {
             stepLow = stepMid;
         }
     }
