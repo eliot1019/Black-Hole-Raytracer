@@ -8,7 +8,7 @@
 
 using namespace CGL;
 using namespace std;
-using namespace CV;
+using namespace cv;
 
 /* 
 TODOS:
@@ -33,7 +33,7 @@ struct Horizon {
 
 		SphericalMapping textureMap;
 		int textureWidth;
-		int[] textureBitmap;
+		Mat textureBitmap;
 		double radius = 1.0;
 
 	public:

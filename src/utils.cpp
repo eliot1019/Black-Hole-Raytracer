@@ -29,9 +29,18 @@ double DoubleMod(double n, double m) {
     return n - (m * x);
 }
 
-std::vector<char> getNativeTextureBitmap(Mat texture); // TODO
+Mat getNativeTextureBitmap(Mat texture) {
+    return texture.clone();
+}
 
-Spectrum AddColor(Spectrum hitColor, Spectrum tintColor); // TODO
+Spectrum AddColor(Spectrum hitColor, Spectrum tintColor) {
+    // Assuming tintColor is not transparent
+    float brightness = (tintColor.r + tintColor.g + tintColor.b) / 3.;
+    hitColor.r = Cap((int)(1. - brightness) * hitColor.r + CapMin(tintColor.r, 0) * 255. / 205., 255);
+    hitColor.g = Cap((int)(1. - brightness) * hitColor.g + CapMin(tintColor.g, 0) * 255. / 205., 255);
+    hitColor.b = Cap((int)(1. - brightness) * hitColor.b + CapMin(tintColor.b, 0) * 255. / 205., 255);
+    return hitColor;
+}
 
 int Cap(int x, int max) {
     if (x > max) {

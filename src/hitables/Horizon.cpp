@@ -15,7 +15,7 @@ Horizon::Horizon(Mat texture, bool checkered) {
 	if (texture != NULL) {
 		textureMap = new SphericalMapping(texture.cols, texture.rows);
 		textureWidth = texture.cols;
-		textureBitmap; // = Util.getNativeTextureBitmap(texture); TODO
+		textureBitmap = getNativeTextureBitmap(texture);
 	}
 }
 
@@ -32,12 +32,12 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         Vector3D colpoint = IntersectionSearch(prevPoint, velocity, equation);
 
         double tempR = 0., tempTheta = 0., tempPhi = 0.;
-        Util.ToSpherical(colpoint.X, colpoint.Z, colpoint.Y, ref tempR, ref tempTheta, ref tempPhi); // TODO
+        ToSpherical(colpoint.X, colpoint.Z, colpoint.Y, ref tempR, ref tempTheta, ref tempPhi);
 
         Spectrum col = Spectrum();
         if (checkered) {
-            auto m1 = Util.DoubleMod(tempTheta, 1.04719); // Pi / 3  TODO
-            auto m2 = Util.DoubleMod(tempPhi, 1.04719); // Pi / 3    TODO
+            double m1 = DoubleMod(tempTheta, 1.04719); // Pi / 3
+            double m2 = DoubleMod(tempPhi, 1.04719); // Pi / 3
             if ((m1 < 0.52359) ^ (m2 < 0.52359)) { // Pi / 6
                 //col = Color.Green
                 col = Spectrum(0., 1., 0.);
@@ -49,8 +49,8 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
 
             col = Spectrum((uint8_t)textureBitmap[yPos * textureWidth + xPos])
         }
-        color = Util.AddColor(col, color); // TODO
-        stop = true;
+        *color = Util.AddColor(col, color);
+        *stop = true;
         return true;
     }
     return false;
