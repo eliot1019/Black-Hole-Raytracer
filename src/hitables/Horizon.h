@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "CGL/CGL.h"
+#include "../mappings/SphericalMapping.h"
 
 using namespace CGL;
 using namespace std;

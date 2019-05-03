@@ -1,9 +1,9 @@
 #include "Horizon.h"
 #include "../utils.h"
+#include "../mappings/SphericalMapping.h"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
-
 #include "CGL/CGL.h"
 
 using namespace CGL;
