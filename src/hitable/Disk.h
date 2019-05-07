@@ -18,14 +18,14 @@ struct Disk {
     double radiusOuterSqr;
 
   public:
-    Disk(const double radiusInner1, const double radiusOuter1);
+    Disk(double radiusInner1, double radiusOuter1);
 
     bool Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
         Vector3D& velocity, SchwarzschildBlackHoleEquation equation, double r, double theta,
         double phi, Color& color, bool stop, bool debug);
 
   protected:
-    Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);
+    Vector3D IntersectionSearch(int side, Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);
 
     CGL::Color GetColor(int side, double r, double theta, double phi);
 

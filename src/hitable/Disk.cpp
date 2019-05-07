@@ -12,7 +12,7 @@
 
 using namespace CGL;
 using namespace std;
-using namespace CV;
+using namespace cv;
 
 Disk::Disk(const double radiusInner1, const double radiusOuter1) {
   radiusInner = radiusInner1;
@@ -37,14 +37,16 @@ bool Disk::Hit(Vector3D &point, double sqrNorm, Vector3D &prevPoint, double prev
   // Did we cross the horizontal plane?
   bool success = false;
   if (point.y * side >= 0) {
-    auto colpoint = IntersectionSearch(side, prevPoint, velocity, equation);
-    auto colpointsqr = colpoint.LengthSquared();
+    Vector3D colpoint = IntersectionSearch(side, prevPoint, velocity, equation);
+    double colpointsqr = colpoint.norm2();
 
     if ((colpointsqr >= radiusInnerSqr) && (colpointsqr <= radiusOuterSqr)) {
-      double tempR = 0, tempTheta = 0, tempPhi = 0;
-      Util.ToSpherical(colpoint.X, colpoint.Y, colpoint.Z, &tempR, &tempTheta, &tempPhi);
+      double tempR = 0;
+      double tempTheta = 0;
+      double tempPhi = 0;
+      Utils::ToSpherical(colpoint.x, colpoint.y, colpoint.z, tempR, tempTheta, tempPhi);
 
-      color = Util.addColor(GetColor(side, tempR, tempPhi, tempTheta + M_PI / 12), color);
+      color = Utils::AddColor(GetColor(side, tempR, tempPhi, tempTheta + M_PI / 12), color);
       stop = false;
       success = true;
     }
@@ -61,7 +63,7 @@ Vector3D Disk::IntersectionSearch(int side, Vector3D prevPoint, Vector3D velocit
     float stepMid = (stepLow + stepHigh) / 2;
     newPoint = prevPoint;
     tempVelocity = velocity;
-    equation.Function(&newPoint, &tempVelocity, stepMid);
+    equation.Function(newPoint, tempVelocity, stepMid);
 
     if (abs(stepHigh - stepLow) < 0.00001) {
       break;

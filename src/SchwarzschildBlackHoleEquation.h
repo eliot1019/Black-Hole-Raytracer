@@ -48,7 +48,7 @@ struct SchwarzschildBlackHoleEquation {
     Function(point, velocity, (point.norm() / 30.0) * StepSize);
   }
 
-  void Function(Vector3D& point,  Vector3D& velocity, float step) {
+  void Function(Vector3D& point, Vector3D& velocity, float step) {
     point += velocity * step;
 
     // this is the magical - 3/2 r^(-5) potential...
