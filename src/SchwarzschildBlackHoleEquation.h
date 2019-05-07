@@ -1,26 +1,24 @@
-//
-// Created by Eliot Han on 4/28/19.
-//
-
 #ifndef BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H
 #define BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H
+
 
 #include "CGL/CGL.h"
 #include "CGL/vector3D.h"
 #include <vector>
 
-namespace CGL {
 
-  struct SchwarzschildBlackHoleEquation {
-    const float DefaultStepSize = 0.16f;
+using namespace CGL;
 
-    float h2;
-    float StepSize;
+struct SchwarzschildBlackHoleEquation {
+  const float DefaultStepSize = 0.16f;
 
-    /// Multiplier for the potential, ranging from 0 for no curvature, to -1.5 for full curvature.
-    float PotentialCoefficient;
+  float h2;
+  float StepSize;
 
-    // Used for Rk4 method
+  /// Multiplier for the potential, ranging from 0 for no curvature, to -1.5 for full curvature.
+  float PotentialCoefficient;
+
+  // Used for Rk4 method
 //    std::vector<double> *Y;
 //    std::vector<double> *F;
 //    std::vector<double> *K1;
@@ -28,39 +26,39 @@ namespace CGL {
 //    std::vector<double> *K3;
 //    std::vector<double> *K4;
 
-    SchwarzschildBlackHoleEquation(float potentialCoef) {
+  SchwarzschildBlackHoleEquation(float potentialCoef) {
 //          Y = new std::vector<double>();
 //          F = new std::vector<double>();
 //          K1 = new std::vector<double>();
 //          K2 = new std::vector<double>();
 //          K3 = new std::vector<double>();
 //          K4 = new std::vector<double>();
-          PotentialCoefficient = potentialCoef;
-          StepSize = DefaultStepSize;
-        }
+    PotentialCoefficient = potentialCoef;
+    StepSize = DefaultStepSize;
+  }
 
-    // Note: this function marked as unsafe in c# code
-    void SetInitialConditions(Vector3D& point, Vector3D& velocity) {
-      Vector3D c = cross(point, velocity);
-      h2 = c.norm2();
-    }
+  // Note: this function marked as unsafe in c# code
+  void SetInitialConditions(Vector3D& point, Vector3D& velocity) {
+    Vector3D c = cross(point, velocity);
+    h2 = c.norm2();
+  }
 
-    void Function(Vector3D& point, Vector3D& velocity)
-    {
-      Function(point, velocity, (point.norm() / 30.0) * StepSize);
-    }
+  void Function(Vector3D& point, Vector3D& velocity)
+  {
+    Function(point, velocity, (point.norm() / 30.0) * StepSize);
+  }
 
-   void Function(Vector3D& point,  Vector3D& velocity, float step) {
-     point += velocity * step;
+  void Function(Vector3D& point, Vector3D& velocity, float step) {
+    point += velocity * step;
 
-     // this is the magical - 3/2 r^(-5) potential...
-     Vector3D accel = PotentialCoefficient * h2 * point / (float)pow(point.norm2(), 2.5);
-     velocity += accel * step;
+    // this is the magical - 3/2 r^(-5) potential...
+    Vector3D accel = PotentialCoefficient * h2 * point / (float)pow(point.norm2(), 2.5);
+    velocity += accel * step;
 
-     // C# project has commented out rk4 stuff here
-   }
+    // C# project has commented out rk4 stuff here
+  }
 
-  };
-}
+};
+
 
 #endif //BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H

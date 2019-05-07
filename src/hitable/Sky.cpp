@@ -10,30 +10,29 @@ using namespace CGL;
 using namespace std;
 using namespace cv;
 
-Sky::Sky(Mat texture, double radius) {
+Sky::Sky(Mat texture, double radius) : textureMap(texture.cols, texture.rows) {
     this->radius = radius;
     radiusSqr = radius * radius;
-    if (texture != NULL) {
-        textureMap = new SphericalMapping(texture.cols, texture.rows);
+    if (!texture.empty()) {
         textureWidth = texture.cols;
-        textureBitmap = getNativeTextureBitmap(texture);
+        textureBitmap = Utils::getNativeTextureBitmap(texture);
+
     }
 }
 
 Sky Sky::SetTextureOffset(double offset) {
     textureOffset = offset;
-    return this;
+    return *this; // may need to change return type of function to Sky* instead
 }
 
 bool Sky::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
     double prevSqrNorm, Vector3D &velocity, SchwarzschildBlackHoleEquation equation,
-    double r, double theta, double phi, Spectrum &color, bool &stop, bool debug) {
+    double r, double theta, double phi, Color &color, bool &stop, bool debug) {
     if (sqrNorm > radiusSqr) {
         int xPos, yPos;
-        textureMap.Map(r, theta, phi, &xPos, &yPos);
-
-        *color = AddColor((uint8_t)textureBitmap[yPos * textureWidth + xPos], color);
-        *stop = true;
+        textureMap.Map(r, theta, phi, xPos, yPos);
+        color = Utils::AddColor(Utils::getColorFromArgbHex(textureBitmap.at<char *>(yPos, xPos)), color);
+        stop = true;
         return true;
     }
     return false;
@@ -47,7 +46,7 @@ Vector3D Sky::IntersectionSearch(Vector3D prevPoint, Vector3D velocity, Schwarzs
         float stepMid = (stepLow + stepHigh) / 2.;
         newPoint = prevPoint;
         tempVelocity = velocity;
-        equation.Function(&newPoint, &tempVelocity, stepMid);
+        equation.Function(newPoint, tempVelocity, stepMid);
 
         double distance = newPoint.norm2();
         if (abs(stepHigh - stepLow) < 0.00001) {

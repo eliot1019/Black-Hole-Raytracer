@@ -1,32 +1,16 @@
 #ifndef HORIZON_H
 #define HORIZON_H
 
+#include "CGL/CGL.h"
+#include "../SchwarzschildBlackHoleEquation.h"
+#include "../mappings/SphericalMapping.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
-
-#include "CGL/CGL.h"
-#include "../mappings/SphericalMapping.h"
 
 using namespace CGL;
 using namespace std;
 using namespace cv;
 
-/* 
-TODOS:
-
-Define `SphericalMapping` under `BlackHoleRaytracer/Mappings/SphericalMapping.cs`
-
-*Notes
-
-Equivalents:
-ref -> &
-Vector3 -> Vector3D
-Bitmap -> Mat
-Color -> Spectrum
-
-*/
-
-// Struct definition + method signatures
 struct Horizon {
 
 	private:
@@ -40,14 +24,13 @@ struct Horizon {
 	public:
 		Horizon(Mat texture, bool checkered);
 
-		bool Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
-			double prevSqrNorm, Vector3D &velocity,
+		bool Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint, double prevSqrNorm, Vector3D &velocity,
 			SchwarzschildBlackHoleEquation equation, double r, double theta,
-			double phi, Spectrum &color, bool &stop, bool debug);
+			double phi, Color &color, bool &stop, bool debug);
+
 
 	protected:
-        Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity,
-            SchwarzschildBlackHoleEquation equation);
+        Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);
 
 };
 

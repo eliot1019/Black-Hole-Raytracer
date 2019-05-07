@@ -3,7 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
-
+#include "../SchwarzschildBlackHoleEquation.h"
 #include "CGL/CGL.h"
 #include "../mappings/SphericalMapping.h"
 
@@ -30,7 +30,8 @@ public:
 
     bool Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         double prevSqrNorm, Vector3D &velocity, SchwarzschildBlackHoleEquation equation,
-        double r, double theta, double phi, Spectrum &color, bool &stop, bool debug);
+        double r, double theta, double phi, Color &color, bool &stop, bool debug);
+
 
 protected:
     Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);

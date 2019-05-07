@@ -3,7 +3,14 @@ cmake_minimum_required(VERSION 2.8)
 # Application source
 set(APPLICATION_SOURCE
         main.cpp
-        hitable/TexturedDisk.cpp hitable/Disk.cpp hitable/Disk.h SchwarzschildBlackHoleEquation.h)
+        SchwarzschildBlackHoleEquation.h
+        utils.h
+        mappings/DiscMapping.h mappings/DiscMapping.cpp
+        mappings/SphericalMapping.h mappings/SphericalMapping.cpp
+        hitable/Disk.cpp hitable/Disk.h hitable/TexturedDisk.h
+        hitable/Horizon.h hitable/Horizon.cpp hitable/Sky.h hitable/Sky.cpp
+
+        hitable/TexturedDisk.cpp)
 
 # Eliot: not sure about this
 ## Windows-only sources

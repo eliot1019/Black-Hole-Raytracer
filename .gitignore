@@ -6,5 +6,5 @@ build
 CMakeCache.txt
 cmake-build-debug/
 CMakeFiles/
-CGL184/
+CGL/
 Makefile
