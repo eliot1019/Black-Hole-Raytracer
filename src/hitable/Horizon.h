@@ -7,7 +7,6 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
-
 using namespace CGL;
 using namespace std;
 using namespace cv;
@@ -29,6 +28,7 @@ struct Horizon {
 				double prevSqrNorm, Vector3D &velocity,
 			SchwarzschildBlackHoleEquation equation, double r, double theta,
 			double phi, Color &color, bool &stop, bool debug);
+
 
 	protected:
         Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity,

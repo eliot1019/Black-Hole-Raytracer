@@ -118,6 +118,4 @@ namespace Utils {
 
 }
 
-
-
 #endif /* UTILS_H */

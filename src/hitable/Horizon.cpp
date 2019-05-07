@@ -2,6 +2,7 @@
 #include "../utils.h"
 #include "../mappings/SphericalMapping.h"
 #include "../SchwarzschildBlackHoleEquation.h"
+
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "CGL/CGL.h"
@@ -45,6 +46,7 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         }
         color = Utils::AddColor(col, color);
         stop = true;
+
         return true;
     }
     return false;

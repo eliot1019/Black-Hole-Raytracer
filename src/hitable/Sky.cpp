@@ -16,6 +16,7 @@ Sky::Sky(Mat texture, double radius) : textureMap(texture.cols, texture.rows) {
     if (!texture.empty()) {
         textureWidth = texture.cols;
         textureBitmap = Utils::getNativeTextureBitmap(texture);
+
     }
 }
 
