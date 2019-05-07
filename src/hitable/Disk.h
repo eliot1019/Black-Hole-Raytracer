@@ -18,7 +18,7 @@ struct Disk {
     double radiusOuterSqr;
 
   public:
-    Disk(double radiusInner1, double radiusOuter1);
+    Disk(double radiusInner, double radiusOuter);
 
     bool Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
         Vector3D& velocity, SchwarzschildBlackHoleEquation equation, double r, double theta,

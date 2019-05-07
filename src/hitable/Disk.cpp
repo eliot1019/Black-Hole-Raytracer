@@ -14,9 +14,9 @@ using namespace CGL;
 using namespace std;
 using namespace cv;
 
-Disk::Disk(const double radiusInner1, const double radiusOuter1) {
-  radiusInner = radiusInner1;
-  radiusOuter = radiusOuter1;
+Disk::Disk(const double radiusInner, const double radiusOuter) {
+  this->radiusInner = radiusInner;
+  this->radiusOuter = radiusOuter;
   radiusInnerSqr = radiusInner * radiusInner;
   radiusOuterSqr = radiusOuter * radiusOuter;
 }

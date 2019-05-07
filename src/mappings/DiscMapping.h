@@ -16,7 +16,7 @@ struct DiscMapping {
     int sizeY;
 
   public:
-    DiscMapping(double rMin, double rMax, int sizeX1, int sizeY1);
+    DiscMapping(double rMin, double rMax, int sizeX, int sizeY);
 
     void Map(double r, double theta, double phi, int &x, int &y);
 };

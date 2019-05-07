@@ -4,11 +4,11 @@
 #include "DiscMapping.h"
 #include "CGL/CGL.h"
 
-DiscMapping::DiscMapping(double rMin1, double rMax1, int sizeX1, int sizeY1) {
-  rMax = rMax1;
-  rMin = rMin1;
-  sizeX = sizeX1;
-  sizeY = sizeY1;
+DiscMapping::DiscMapping(double rMin, double rMax, int sizeX, int sizeY) {
+  this->rMax = rMax;
+  this->rMin = rMin;
+  this->sizeX = sizeX;
+  this->sizeY = sizeY;
 }
 
 void DiscMapping::Map(const double r, const double theta, const double phi, int &x, int &y) {

@@ -11,7 +11,7 @@ using namespace std;
 using namespace cv;
 
 Sky::Sky(Mat texture, double radius) : textureMap(texture.cols, texture.rows) {
-    radius = radius;
+    this->radius = radius;
     radiusSqr = radius * radius;
     if (!texture.empty()) {
         textureWidth = texture.cols;
