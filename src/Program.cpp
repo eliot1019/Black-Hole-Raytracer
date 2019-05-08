@@ -16,8 +16,10 @@ int main( int argc, char** argv ) {
 
    // TODO: override default vars through command line args ?
 
-  //  Vector3D hitables = new Vector3D<Disk>; // TODO: append these to the vector3D hitables list
-  //   new TexturedDisk(2.6, 12.0, new Bitmap("disk_textured.png")),
+  //  Vector3D<IHitable *> &hitables = new Vector3D<IHitable>;
+
+  // TODO: append these to the vector3D hitables list
+  //   new TexturedDisk(2.6, 12.0, new Bitmap("disk_textured.png")), // TODO: are we using `new Mat(...)` rather than  `new Bitmap(...)` ?
   //   new Horizon(null, false),
   //   new Sky(new Bitmap("sky8k.jpg"), 30).SetTextureOffset(Math.PI / 2),
 
