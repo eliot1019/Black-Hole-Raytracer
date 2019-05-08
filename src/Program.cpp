@@ -3,12 +3,13 @@
 #include "CGL/CGL.h"
 #include <CGL/vector3D.h>
 #include "Scene.h"
+#include "SchwarzschildRayProcessor.h"
 
 
 int main( int argc, char** argv ) {
   Vector3D cameraPos = new Vector3D(0, 3, -20);
-  Vector3D lookAt = new Vector3(0, 0, 0);
-  Vector3D up = new Vector3(-0.3f, 1, 0);
+  Vector3D lookAt = new Vector3D(0, 0, 0);
+  Vector3D up = new Vector3D(-0.3f, 1, 0);
   float fov = 55f;
   float curvatureCoeff = -1.5f;
   float angularMomentum = 0;
