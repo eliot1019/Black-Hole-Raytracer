@@ -2,15 +2,17 @@
 #define BLACKHOLERAYTRACER_DISK_H
 
 #include "CGL/CGL.h"
+#include "../ArgbColor.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include "IHitable.h"
 
 using namespace CGL;
 using namespace std;
 using namespace cv;
 
-struct Disk {
+class Disk : public IHitable{
   private:
     double radiusInner;
     double radiusOuter;
@@ -22,12 +24,12 @@ struct Disk {
 
     bool Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
         Vector3D& velocity, SchwarzschildBlackHoleEquation equation, double r, double theta,
-        double phi, Color& color, bool stop, bool debug);
+        double phi, ArgbColor& color, bool stop, bool debug);
 
   protected:
     Vector3D IntersectionSearch(int side, Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);
 
-    CGL::Color GetColor(int side, double r, double theta, double phi);
+    ArgbColor GetColor(int side, double r, double theta, double phi);
 
 };
 

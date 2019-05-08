@@ -4,8 +4,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "CGL/CGL.h"
-#include "CGL/Color.h"
 #include "CGL/Vector3D.h"
+#include "CGL/Matrix4x4.h"
+#include "ArgbColor.h"
 
 using namespace CGL;
 using namespace std;
@@ -61,33 +62,6 @@ namespace Utils {
     return (max + min) / 2;
   }
 
-
-// Based off CGL's color.cpp fromHex(). Only difference is to also zero out alpha value
-// Replace C# project's Color.FromArgb(Int32) with this
-  static Color getColorFromArgbHex(const char* s) {
-    // Ignore leading hashmark.
-    if( s[0] == '#' ) {
-      s++;
-    }
-
-    // Set stream formatting to hexadecimal.
-    stringstream ss;
-    ss << hex;
-
-    // Convert to integer.
-    unsigned int rgb;
-    ss << s;
-    ss >> rgb;
-
-    // Extract 8-byte chunks and normalize.
-    Color c;
-    c.r = (float)( ( rgb & 0x00FF0000 ) >> 16 ) / 255.0;
-    c.g = (float)( ( rgb & 0x0000FF00 ) >>  8 ) / 255.0;
-    c.b = (float)( ( rgb & 0x000000FF ) >>  0 ) / 255.0;
-
-    return c;
-  }
-
   static int Cap(int x, int max) {
     if (x > max) {
       return max;
@@ -106,16 +80,31 @@ namespace Utils {
     }
   }
 
-  static Color AddColor(Color hitColor, Color tintColor) {
-    // Assuming tintColor is not transparent
+  static ArgbColor AddColor(ArgbColor hitColor, ArgbColor tintColor) {
+    if (tintColor == ArgbColor::Transparent)
+    {
+      return hitColor;
+    }
     float brightness = GetBrightness(tintColor);
-    Color c;
+    ArgbColor c;
     c.r = Cap((int)(1. - brightness) * hitColor.r + CapMin(tintColor.r, 0) * 255. / 205., 255);
     c.g = Cap((int)(1. - brightness) * hitColor.g + CapMin(tintColor.g, 0) * 255. / 205., 255);
     c.b = Cap((int)(1. - brightness) * hitColor.b + CapMin(tintColor.b, 0) * 255. / 205., 255);
     return c;
   }
 
-}
+
+  // Transform a 3D Vector using a homogenous coord transform matrix
+  // https://github.com/microsoft/referencesource/blob/master/System.Numerics/System/Numerics/Vector3.cs
+  static Vector3D *transform(Vector3D position, Matrix4x4 matrix) {
+    return new Vector3D(position.x * matrix[0][0] + position.y * matrix[1][0] + position.z * matrix[2][0] + matrix[3][0],
+                        position.x * matrix[0][1] + position.y * matrix[1][1] + position.z * matrix[2][1] + matrix[3][1],
+                        position.x * matrix[0][2] + position.y * matrix[1][2] + position.z * matrix[2][3] + matrix[3][2]
+                        );
+  }
+
+
+
+  }
 
 #endif /* UTILS_H */

@@ -6,14 +6,14 @@
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "CGL/CGL.h"
 #include "../mappings/SphericalMapping.h"
+#include "IHitable.h"
+#include "../ArgbColor.h"
 
 using namespace CGL;
 using namespace std;
 using namespace cv;
 
-
-// Struct definition + method signatures
-struct Sky {
+class Sky : public IHitable{
 
 private:
     SphericalMapping textureMap;
@@ -26,11 +26,11 @@ private:
 public:
     Sky(Mat texture, double radius);
 
-    Sky SetTextureOffset(double offset);
+    Sky *SetTextureOffset(double offset);
 
     bool Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         double prevSqrNorm, Vector3D &velocity, SchwarzschildBlackHoleEquation equation,
-        double r, double theta, double phi, Color &color, bool &stop, bool debug);
+        double r, double theta, double phi, ArgbColor &color, bool &stop, bool debug);
 
 
 protected:
