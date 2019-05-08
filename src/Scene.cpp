@@ -9,7 +9,7 @@ using namespace CGL;
 using namespace std;
 using namespace cv;
 
-Scene::Scene(Vector3D &CameraPosition, Vector3D &CameraLookAt, Vector3D &UpVector, float Fov, Vector3D<IHitable *>  &hitables, float CurvatureCoeff, float AngularMomentum) { // TODO: what should we use for List data structure
+Scene::Scene(Vector3D &CameraPosition, Vector3D &CameraLookAt, Vector3D &UpVector, float Fov, Vector3D<IHitable *>  &hitables, float CurvatureCoeff, float AngularMomentum) {
   this->CameraPosition = CameraPosition;
   this->CameraLookAt = CameraLookAt;
   this->UpVector = UpVector;
