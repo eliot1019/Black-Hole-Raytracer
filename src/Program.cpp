@@ -14,40 +14,14 @@ int main( int argc, char** argv ) {
   float angularMomentum = 0;
   string fileName = "image.png";
 
-   // TODO: override default vars through command line
+   // TODO: override default vars through command line args ?
 
-  //  Vector3D hitables = new Vector3D<Disk>;
+  //  Vector3D hitables = new Vector3D<Disk>; // TODO: append these to the vector3D hitables list
   //   new TexturedDisk(2.6, 12.0, new Bitmap("disk_textured.png")),
   //   new Horizon(null, false),
   //   new Sky(new Bitmap("sky8k.jpg"), 30).SetTextureOffset(Math.PI / 2),
-    //
 
-    int numRandomSpheres = 0;
+    Scene scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
 
-    // var starTexture = new Bitmap("sun2k.jpg"); // TODO:
-    // var starBitmap = Utils::getNativeTextureBitmap(starTexture);
-
-    var random = rand();
-
-    double tempR = 0;
-    double tempTheta = 0;
-    double tempPhi = 0;
-
-    double tempX = 0;
-    double tempY = 0;
-    double tempZ = 0;
-
-    for (int i = 0; i < numRandomSpheres; i++) {
-        tempR = 6.5 + random.NextDouble() * 6.0;
-        tempTheta = random.NextDouble() * Math.PI * 2;
-
-        Utils::toCartesian(tempR, tempTheta, 0, ref tempX, ref tempY, ref tempZ);
-
-        hitables.Add(new TexturedSphere(tempX, tempY, tempZ, 0.05f + (float)random.NextDouble() * 0.2f, starBitmap, starTexture.Width, starTexture.Height)
-            .SetTextureOffset(random.NextDouble() * Math.PI * 2));
-    }
-
-    var scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
-
-  new SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process();
+  // new SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process(); // TODO: implement SchwarzschildRayProcessor
 }
