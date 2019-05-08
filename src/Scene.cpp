@@ -1,4 +1,4 @@
-#include "Disk.h"
+#include "Scene.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "../utils.h"
 #include "../mappings/SphericalMapping.h"
@@ -31,6 +31,5 @@ Scene::Scene(Vector3D &CameraPosition, Vector3 &CameraLookAt, Vector3 &UpVector,
 
   // TODO: tie into SchwarzschildBlackHoleEquation object implementation
   // SchwarzschildEquation = new SchwarzschildBlackHoleEquation(CurvatureCoeff);
-  // KerrEquation = new KerrBlackHoleEquation(CameraDistance, CameraAngleHorz, CameraAngleVert, AngularMomentum);
 
 }
