@@ -13,16 +13,24 @@ public:
   static const ArgbColor Transparent;
 
   ArgbColor( float a = 0, float r = 0, float g = 0, float b = 0 )
-        : a(a), Color(r,g,b) { }
+        : Color(r,g,b), a(a) { }
 
   ArgbColor(Color c) : Color(c.r, c.g, c.b) {}
 
+  // NOTE: Don't use ArgbColor's array indexing or array constructor.
+
+  ArgbColor( const unsigned char* arr ) {
+    throw "Don't use ArgbColor's array indexing or array constructor.";
+  }
+
   // Array-style access
   float& operator[](int k) {
-    return (&r)[k];
+    throw "Don't use ArgbColor's array indexing or array constructor.";
+    //return (&a)[k];
   }
   const float& operator[](int k) const {
-    return (&r)[k];
+    //return (&a)[k];
+    throw "Don't use ArgbColor's array indexing or array constructor.";
   }
 
   // Addition.
