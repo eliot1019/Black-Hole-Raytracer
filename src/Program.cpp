@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "CGL/CGL.h"
 #include <CGL/vector3D.h>
-#include "CGL/Color.h"
+#include "Scene.h"
 
 
 int main( int argc, char** argv ) {
