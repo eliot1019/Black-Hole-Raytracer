@@ -2,8 +2,8 @@
 #define SCENE_H
 
 #include "CGL/CGL.h"
-#include "../SchwarzschildBlackHoleEquation.h"
 #include <opencv2/opencv.hpp>
+#include <CGL/Vector3D.h>
 #include <iostream>
 
 using namespace CGL;
@@ -12,21 +12,11 @@ using namespace cv;
 
 struct Scene {
   public:
-    Scene(Vector3D &CameraPosition, Vector3 &CameraLookAt, Vector3 &UpVector, float Fov, List<IHitable> hitables, float CurvatureCoeff, float AngularMomentum); // TODO: what should we use for List data structure
+    Scene(Vector3D &CameraPosition, Vector3D &CameraLookAt, Vector3D &UpVector, float Fov, List<IHitable> hitables, float CurvatureCoeff, float AngularMomentum); // TODO: what should we use for List data structure
 
-    Vector3D CameraPosition();
-    Vector3D CameraLookAt();
-    Vector3D UpVector();
-    Vector3D Fov();
+    double Vector3D<IHitable *> hitables();
 
-    double CameraDistance();
-    double CameraAngleHorz();
-    double CameraAngleVert();
-    double CameraTilt();
-    double CameraYaw();
-    double List<Disk> hitables(); // TODO: what list datastructure should we use?
-
-    SchwarzschildBlackHoleEquation SchwarzschildEquation(); // TODO: tie to SchwarzschildBlackHoleEquation object implementation
+    SchwarzschildBlackHoleEquation SchwarzschildEquation();
 };
 
 #endif // SCENE_H

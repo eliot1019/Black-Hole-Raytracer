@@ -1,19 +1,15 @@
 #include "Scene.h"
-#include "../SchwarzschildBlackHoleEquation.h"
-#include "../utils.h"
-#include "../mappings/SphericalMapping.h"
-
-#include <opencv2/opencv.hpp>
-#include <iostream>
+#include "SchwarzschildBlackHoleEquation.h"
+#include "utils.h"
 #include "CGL/CGL.h"
-#include <CGL/vector3D.h>
+#include <CGL/Vector3D.h>
 #include "CGL/Color.h"
 
 using namespace CGL;
 using namespace std;
 using namespace cv;
 
-Scene::Scene(Vector3D &CameraPosition, Vector3 &CameraLookAt, Vector3 &UpVector, float Fov, List<IHitable> hitables, float CurvatureCoeff, float AngularMomentum) { // TODO: what should we use for List data structure
+Scene::Scene(Vector3D &CameraPosition, Vector3D &CameraLookAt, Vector3D &UpVector, float Fov, List<IHitable> hitables, float CurvatureCoeff, float AngularMomentum) { // TODO: what should we use for List data structure
   this->CameraPosition = CameraPosition;
   this->CameraLookAt = CameraLookAt;
   this->UpVector = UpVector;
@@ -29,7 +25,5 @@ Scene::Scene(Vector3D &CameraPosition, Vector3 &CameraLookAt, Vector3 &UpVector,
   CameraAngleVert = tempTheta;
   CameraAngleHorz = tempPhi - 0.1;
 
-  // TODO: tie into SchwarzschildBlackHoleEquation object implementation
-  // SchwarzschildEquation = new SchwarzschildBlackHoleEquation(CurvatureCoeff);
-
+  SchwarzschildEquation = new SchwarzschildBlackHoleEquation(CurvatureCoeff);
 }
