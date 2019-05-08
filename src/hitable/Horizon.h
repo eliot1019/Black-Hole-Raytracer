@@ -6,12 +6,14 @@
 #include "../mappings/SphericalMapping.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include "IHitable.h"
+#include "../ArgbColor.h"
 
 using namespace CGL;
 using namespace std;
 using namespace cv;
 
-struct Horizon {
+class Horizon : public IHitable{
 
 	private:
 		bool checkered;
@@ -26,7 +28,7 @@ struct Horizon {
 
 		bool Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint, double prevSqrNorm, Vector3D &velocity,
 			SchwarzschildBlackHoleEquation equation, double r, double theta,
-			double phi, Color &color, bool &stop, bool debug);
+			double phi, ArgbColor &color, bool &stop, bool debug);
 
 
 	protected:

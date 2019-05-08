@@ -1,8 +1,12 @@
 #include "CGL/CGL.h"
+#include "CGL/Matrix4x4.h"
 #include "SchwarzschildRayProcessor.h"
 #include "SchwarzschildBlackHoleEquation.h"
 #include "ThreadParams.h"
 #include "Scene.h"
+#include "utils.h"
+#include "hitable/IHitable.h"
+#include "ArgbColor.h"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -23,7 +27,12 @@ SchwarzschildRayProcessor::SchwarzschildRayProcessor(int width, int height, Scen
 
 void SchwarzschildRayProcessor::Process() {
   // Create main bitmap for writing pixels
-  outputBitmap = Mat(height, width, CV_32SC1); //rows, cols, type, I'm not about this type but we want a signed 32 bit int.
+
+  // Primitive type defined in the form
+  // CV_<bit-depth>{U|S|F}C(<number_of_channels>)
+  // U = unsigned integer, S = signed integer, F = float
+  // https://stackoverflow.com/questions/27183946/what-does-cv-8uc3-and-the-other-types-stand-for-in-opencv
+  outputBitmap = Mat(height, width, CV_32SC4); //rows, cols, type
 
   int numThreads = 8; //Hardcoded for now? used to be Environment.ProcessorCount;
   //could try this too: std::thread::hardware_concurrency();
@@ -40,7 +49,7 @@ void SchwarzschildRayProcessor::Process() {
     tp->JobId = i;
     tp->LinesList = lineLists[i];
     tp->Equation = SchwarzschildBlackHoleEquation(scene.SchwarzschildEquation);
-    tp->Thread = new std::thread(&SchwarzschildRayProcessor::RayTraceThread, this);
+    tp->Thread = new std::thread(&SchwarzschildRayProcessor::RayTraceThread, tp);
     paramList.push_back(tp);
   }
 
@@ -62,6 +71,94 @@ void SchwarzschildRayProcessor::Process() {
   cout << "Finished in "<< time(0) - now << " seconds." << endl;
 }
 
-void SchwarzschildRayProcessor::RayTraceThread(ThreadParams threadParams) {
+void SchwarzschildRayProcessor::RayTraceThread(ThreadParams *threadParams) {
+  ThreadParams param = *threadParams;
+  cout << "Starting thread " << threadParams->JobId << endl;
+  float tanFov = (float) tan((M_PI / 180.0) * scene.Fov);
 
+  Vector3D front = scene.CameraLookAt - scene.CameraPosition;
+  front.normalize();
+  Vector3D left = cross(scene.UpVector, front);
+  left.normalize();
+  Vector3D nUp = cross(front, left);
+
+  double matrixData[16] = {left.x, left.y, left.z, 0.0,
+                          nUp.x, nUp.y, nUp.z, 0.0,
+                          front.x, front.y, front.z, 0.0,
+                          0.0, 0.0, 0.0, 0.0};
+  Matrix4x4 viewMatrix = Matrix4x4(matrixData);
+
+
+  bool debug = false;
+  ArgbColor color;
+  int x, yOffset;
+  Vector3D point, prevPoint;
+  double sqrNorm, prevSqrNorm;
+  double tempR = 0, tempTheta = 0, tempPhi = 0;
+  bool stop = false;
+
+  try
+  {
+    for (int y : param.LinesList)
+    {
+      yOffset = y * width;
+      for (x = 0; x < width; x++) {
+        color = ArgbColor::Transparent;
+
+        Vector3D view = Vector3D(((float)x / width - 0.5f) * tanFov,
+                               ((-(float)y / height + 0.5f) * height / width) * tanFov,
+                                (float) 1.0);
+        view = *Utils::transform(view, viewMatrix);
+
+        Vector3D normView = view / view.norm();
+
+        Vector3D velocity = Vector3D(normView.X, normView.Y, normView.Z);
+
+        point = scene.CameraPosition;
+        sqrNorm = point.norm2();
+
+        param.Equation.SetInitialConditions(point, velocity);
+
+        for (int iter = 0; iter < NumIterations; iter++)
+        {
+          prevPoint = point;
+          prevSqrNorm = sqrNorm;
+
+          param.Equation.Function(point, velocity);
+          sqrNorm = point.norm2();
+
+          Utils::ToSpherical(point.x, point.y, point.z, tempR, tempTheta, tempPhi);
+
+          // Check if the ray hits anything
+          for(IHitable hitable : scene.hitables)
+          {
+            stop = false;
+            if (hitable.Hit(point, sqrNorm, prevPoint, prevSqrNorm, velocity, param.Equation, tempR, tempTheta, tempPhi, color, stop, debug))
+            {
+              if (stop)
+              {
+                // The ray has found its stopping point (or rather its starting point).
+                break;
+              }
+            }
+          }
+          if (stop)
+          {
+            break;
+          }
+
+        }
+
+        outputBitmap.at<uint32_t>(y, x) = color.toArgb();
+
+      }
+      cout << "Thread " << param.JobId << ": Line " << y << " rendered." << endl;
+    }
+  }
+  catch (Exception &e)
+  {
+    cout << "Thread " << param.JobId << ": Error " << e.msg << endl;
+  }
+  cout << "Thread " << param.JobId << " finished." << endl;
 }
+

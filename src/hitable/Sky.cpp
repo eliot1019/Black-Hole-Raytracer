@@ -5,6 +5,7 @@
 #include "Sky.h"
 #include "../mappings/SphericalMapping.h"
 #include "../utils.h"
+#include "../ArgbColor.h"
 
 using namespace CGL;
 using namespace std;
@@ -20,18 +21,18 @@ Sky::Sky(Mat texture, double radius) : textureMap(texture.cols, texture.rows) {
     }
 }
 
-Sky Sky::SetTextureOffset(double offset) {
+Sky *Sky::SetTextureOffset(double offset) {
     textureOffset = offset;
-    return *this; // may need to change return type of function to Sky* instead
+    return this; // may need to change return type of function to Sky* instead
 }
 
 bool Sky::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
     double prevSqrNorm, Vector3D &velocity, SchwarzschildBlackHoleEquation equation,
-    double r, double theta, double phi, Color &color, bool &stop, bool debug) {
+    double r, double theta, double phi, ArgbColor &color, bool &stop, bool debug) {
     if (sqrNorm > radiusSqr) {
         int xPos, yPos;
         textureMap.Map(r, theta, phi, xPos, yPos);
-        color = Utils::AddColor(Utils::getColorFromArgbHex(textureBitmap.at<char *>(yPos, xPos)), color);
+        color = Utils::AddColor(ArgbColor::fromArgb(textureBitmap.at<uint32_t>(yPos, xPos)), color);
         stop = true;
         return true;
     }

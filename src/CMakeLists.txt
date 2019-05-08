@@ -9,7 +9,8 @@ set(APPLICATION_SOURCE
         mappings/SphericalMapping.h mappings/SphericalMapping.cpp
         hitable/Disk.cpp hitable/Disk.h hitable/TexturedDisk.h
         hitable/Horizon.h hitable/Horizon.cpp hitable/Sky.h hitable/Sky.cpp
-        hitable/TexturedDisk.cpp SchwarzschildRayProcessor.h SchwarzschildRayProcessor.cpp ThreadParams.h)
+        hitable/TexturedDisk.cpp SchwarzschildRayProcessor.h SchwarzschildRayProcessor.cpp
+        ThreadParams.h hitable/IHitable.h ArgbColor.cpp ArgbColor.h)
 
 # Eliot: not sure about this
 ## Windows-only sources

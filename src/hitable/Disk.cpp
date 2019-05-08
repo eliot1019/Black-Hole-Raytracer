@@ -2,12 +2,12 @@
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "../utils.h"
 #include "../mappings/SphericalMapping.h"
+#include "../ArgbColor.h"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "CGL/CGL.h"
 #include <CGL/vector3D.h>
-#include "CGL/Color.h"
 
 
 using namespace CGL;
@@ -21,15 +21,15 @@ Disk::Disk(const double radiusInner, const double radiusOuter) {
   radiusOuterSqr = radiusOuter * radiusOuter;
 }
 
-Color Disk::GetColor(int side, double r, double theta, double phi) {
+ArgbColor Disk::GetColor(int side, double r, double theta, double phi) {
   // white
-  return Color::White;
+  return ArgbColor::White;
 }
 
 
 bool Disk::Hit(Vector3D &point, double sqrNorm, Vector3D &prevPoint, double prevSqrNorm,
               Vector3D &velocity, SchwarzschildBlackHoleEquation equation, double r, double theta,
-              double phi, Color &color, bool stop, bool debug) {
+              double phi, ArgbColor &color, bool stop, bool debug) {
   // Remember what side of the plane we're currently on, so that we can detect
   // whether we've crossed the plane after stepping.
   int side = prevPoint.y > 0 ? -1 : prevPoint.y < 0 ? 1 : 0;
