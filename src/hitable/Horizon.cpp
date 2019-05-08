@@ -2,6 +2,7 @@
 #include "../utils.h"
 #include "../mappings/SphericalMapping.h"
 #include "../SchwarzschildBlackHoleEquation.h"
+#include "../ArgbColor.h"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
@@ -21,7 +22,7 @@ Horizon::Horizon(Mat texture, bool checkered) : textureMap(texture.cols, texture
 bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
     double prevSqrNorm, Vector3D &velocity,
     SchwarzschildBlackHoleEquation equation, double r, double theta,
-    double phi, Color &color, bool &stop, bool debug) {
+    double phi, ArgbColor &color, bool &stop, bool debug) {
 
     // Has the ray fallen past the horizon?
     if (prevSqrNorm > 1 && sqrNorm < 1) {
@@ -30,7 +31,7 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         double tempR = 0., tempTheta = 0., tempPhi = 0.;
         Utils::ToSpherical(colpoint.x, colpoint.z, colpoint.y, tempR, tempTheta, tempPhi);
 
-        Color col = Color::Black;
+        ArgbColor col = ArgbColor::Black;
         if (checkered) {
             double m1 = Utils::DoubleMod(tempTheta, 1.04719); // Pi / 3
             double m2 = Utils::DoubleMod(tempPhi, 1.04719); // Pi / 3
@@ -42,7 +43,7 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
         else if (!textureBitmap.empty()) {
           int xPos, yPos;
           textureMap.Map(r, theta, -phi, xPos, yPos);
-          col = Utils::getColorFromArgbHex(textureBitmap.at<char *>(yPos, xPos));
+          col = ArgbColor::fromArgb(textureBitmap.at<uint32_t>(yPos, xPos));
         }
         color = Utils::AddColor(col, color);
         stop = true;
