@@ -27,7 +27,7 @@ namespace BlackHoleRaytracer {
   public:
       SchwarzschildRayProcessor(int width, int height, Scene scene, string outputFileName);
       void Process();
-      void RayTraceThread(ThreadParams threadParams);
+      void RayTraceThread(ThreadParams *threadParams);
 
   };
 
