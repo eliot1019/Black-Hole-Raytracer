@@ -62,7 +62,7 @@ void SchwarzschildRayProcessor::Process() {
     param->Thread->join();
   }
 
-  imwrite(outputFileName, 1);
+  imwrite(outputFileName, outputBitmap);
   //GCHandle gcHandle = GCHandle.Alloc(outputBitmap, GCHandleType.Pinned);
 //  Bitmap resultBmp = new Bitmap(width, height, width * 4, PixelFormat.Format32bppArgb, gcHandle.AddrOfPinnedObject());
 //  resultBmp.Save(outputFileName, ImageFormat.Png);
