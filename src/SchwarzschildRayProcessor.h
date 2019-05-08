@@ -6,7 +6,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "ThreadParams.h"
-//#include "Scene.h"
+#include "Scene.h"
 
 using namespace CGL;
 using namespace std;

@@ -112,7 +112,7 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams *threadParams) {
 
         Vector3D normView = view / view.norm();
 
-        Vector3D velocity = Vector3D(normView.X, normView.Y, normView.Z);
+        Vector3D velocity = Vector3D(normView.x, normView.y, normView.z);
 
         point = scene.CameraPosition;
         sqrNorm = point.norm2();
