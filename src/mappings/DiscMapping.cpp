@@ -18,8 +18,8 @@ void DiscMapping::Map(const double r, const double theta, const double phi, int 
     y = sizeY;
   }
 
-  x = (int)(phi / (2 * M_PI) * sizeX) % sizeX;
+  x = (int)((phi / (2 * M_PI)) * sizeX) % sizeX;
   if (x < 0) { x = sizeX + x; }
-  y = (int)((r - rMin) / (rMax - rMin) * sizeY);
+  y = (int)(((r - rMin) / (rMax - rMin)) * sizeY);
   if (y > sizeY - 1) { y = sizeY - 1; }
 }

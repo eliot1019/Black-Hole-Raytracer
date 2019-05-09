@@ -22,12 +22,12 @@ int main( int argc, char** argv ) {
   float fov = 55.0;
   float curvatureCoeff = -1.5;
   float angularMomentum = 0.0;
-  string fileName = "output_image.jpg";
+  string fileName = "output_image_starlessbackground_lavadisk.jpg";
 
   std::vector<IHitable *> hitables;
 
-  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/disk_textured.png", 1);
-  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/sky8k.jpg", 1);
+  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/images/disk_textured_lava.jpg", 1);
+  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/images/starless_background.jpg", 1);
   Mat diskImgBmp, skyImgBmp;
   diskImg.convertTo(diskImgBmp, CV_8UC3);
   skyImg.convertTo(skyImgBmp, CV_8UC3);
