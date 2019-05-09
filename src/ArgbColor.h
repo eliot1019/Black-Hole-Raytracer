@@ -2,17 +2,18 @@
 #define BLACKHOLERAYTRACER_ARGBCOLOR_H
 
 #include "CGL/color.h"
+#include <opencv2/opencv.hpp>
 
 using namespace CGL;
 
 class ArgbColor : public Color{
 public:
-  float a = 1; // alpha channel
+  float a = 1.0; // alpha channel
   static const ArgbColor White;
   static const ArgbColor Black;
   static const ArgbColor Transparent;
 
-  ArgbColor( float a = 0, float r = 0, float g = 0, float b = 0 )
+  ArgbColor( float a = 1.0, float r = 0, float g = 0, float b = 0 )
         : Color(r,g,b), a(a) { }
 
   ArgbColor(Color c) : Color(c.r, c.g, c.b) {}
@@ -76,7 +77,7 @@ public:
    * Construct a ArgbColor object from a uint32_t in argb format
    */
    //https://en.wikipedia.org/wiki/RGBA_color_space#ARGB_(word-order)
-  static ArgbColor fromArgb( uint32_t x );
+  static ArgbColor fromArgb( cv::Vec4b x );
 
   /**
    * Returns a 32 bit integer in ARGB format

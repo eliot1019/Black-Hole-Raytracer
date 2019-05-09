@@ -5,6 +5,7 @@
 #include <ostream>
 #include <sstream>
 #include <iomanip>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 
@@ -18,13 +19,18 @@ const ArgbColor ArgbColor::Transparent  = ArgbColor(0,1,1,1);
 
 
 // Replace C# project's Color.FromArgb(Int32) with this
-ArgbColor ArgbColor::fromArgb(const uint32_t x) {
+ArgbColor ArgbColor::fromArgb(const cv::Vec4b x) {
   // Extract 8-byte chunks and normalize.
   ArgbColor c;
-  c.a = (float)( ( x & 0xFF000000 ) >> 24 ) / 255.0;
-  c.r = (float)( ( x & 0x00FF0000 ) >> 16 ) / 255.0;
-  c.g = (float)( ( x & 0x0000FF00 ) >>  8 ) / 255.0;
-  c.b = (float)( ( x & 0x000000FF ) >>  0 ) / 255.0;
+//  c.b = (float)( ( x & 0xFF000000 ) >> 24 ) / 255.0;
+//  c.g = (float)( ( x & 0x00FF0000 ) >> 16 ) / 255.0;
+//  c.r = (float)( ( x & 0x0000FF00 ) >>  8 ) / 255.0;
+//  c.a = 1.0;
+
+  c.b = (float)(x[0] / 255.0);
+  c.g = (float)(x[1] / 255.0);
+  c.r = (float)(x[2] / 255.0);
+  c.a = (float)(x[3] / 255.0);
 
   return c;
 }
@@ -39,7 +45,7 @@ uint32_t ArgbColor::toArgb( void ) const {
   stringstream ss;
   ss << hex;
 
-  ss << A << R << G << B;
+  ss << B << G << R << A;
   string hexStr = ss.str();
 
   // convert the string returned by to hex to an unsigned int

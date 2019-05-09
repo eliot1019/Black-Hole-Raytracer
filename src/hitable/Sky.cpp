@@ -32,7 +32,7 @@ bool Sky::Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevS
     if (sqrNorm > radiusSqr) {
         int xPos, yPos;
         textureMap.Map(r, theta, phi, xPos, yPos);
-        color = Utils::AddColor(ArgbColor::fromArgb(textureBitmap.at<uint32_t>(yPos, xPos)), color);
+        color = Utils::AddColor(ArgbColor::fromArgb(textureBitmap.at<Vec4b>(yPos, xPos)), color);
         stop = true;
         return true;
     }

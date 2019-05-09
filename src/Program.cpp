@@ -26,17 +26,13 @@ int main( int argc, char** argv ) {
 
   std::vector<IHitable *> hitables;
 
-  Mat diskImg = imread("disk_textured.png", 1);
-  Mat skyImg = imread("sky8k.jpg", 1);
+  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/disk_textured.png", IMREAD_UNCHANGED);
+  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/sky8k.png", IMREAD_UNCHANGED);
   Mat diskImgBmp, skyImgBmp;
-  diskImg.convertTo(diskImgBmp, CV_32SC4);
-  skyImg.convertTo(skyImgBmp, CV_32SC4);
+  diskImg.convertTo(diskImgBmp, CV_8UC4);
+  skyImg.convertTo(skyImgBmp, CV_8UC4);
 
   Mat horzTexture;
-
-  cout << "disk_textured columns " << diskImgBmp.cols << endl;
-  cout << "sky columns " << skyImg.cols << endl;
-  cout << "skybmp columns " << skyImgBmp.cols << endl;
 
   hitables.push_back(new TexturedDisk(2.6, 12.0, diskImgBmp));
   hitables.push_back(new Horizon(horzTexture, false));
@@ -44,5 +40,5 @@ int main( int argc, char** argv ) {
 
   Scene *scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
 
-  SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process();
+  SchwarzschildRayProcessor(352, 240, scene, fileName).Process();
 }

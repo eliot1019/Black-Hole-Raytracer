@@ -32,9 +32,9 @@ void SchwarzschildRayProcessor::Process() {
   // CV_<bit-depth>{U|S|F}C(<number_of_channels>)
   // U = unsigned integer, S = signed integer, F = float
   // https://stackoverflow.com/questions/27183946/what-does-cv-8uc3-and-the-other-types-stand-for-in-opencv
-  outputBitmap = Mat(height, width, CV_32SC4); //rows, cols, type
+  outputBitmap = Mat(height, width, CV_8UC4); //rows, cols, type
 
-  int numThreads = 1; //Hardcoded for now? used to be Environment.ProcessorCount;
+  int numThreads = 8; //Hardcoded for now? used to be Environment.ProcessorCount;
   //could try this too: std::thread::hardware_concurrency();
   time_t now = time(0);
   cout << "Launching " << numThreads << " threads..." << endl;
@@ -101,13 +101,13 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
   double tempR = 0, tempTheta = 0, tempPhi = 0;
   bool stop = false;
 
-  cout << "test " << threadParams.LinesList->size() << endl;
+  //cout << "test " << threadParams.LinesList->size() << endl;
 
   try
   {
     for (int y : *(threadParams.LinesList))
     {
-      cout << "got here 1" << endl;
+      //cout << "got here 1" << endl;
       yOffset = y * width;
       for (x = 0; x < width; x++) {
         color = ArgbColor::Transparent;
@@ -156,7 +156,17 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
 
         }
 
-        outputBitmap.at<uint32_t>(y, x) = color.toArgb();
+        Vec4b c;
+        int A = (unsigned char) max( 0., min( 255.0, 255.0 * color.a ));
+        int R = (unsigned char) max( 0., min( 255.0, 255.0 * color.r ));
+        int G = (unsigned char) max( 0., min( 255.0, 255.0 * color.g ));
+        int B = (unsigned char) max( 0., min( 255.0, 255.0 * color.b ));
+        c[0] = B;
+        c[1] = G;
+        c[2] = R;
+        c[3] = A;
+        outputBitmap.at<Vec4b>(y, x) = c;
+        //cout << c << endl;
 
       }
       cout << "Thread " << threadParams.JobId << ": Line " << y << " rendered." << endl;

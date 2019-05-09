@@ -45,9 +45,9 @@ namespace Utils {
   // Used in Utils::AddColor()
   // https://stackoverflow.com/questions/23215600/algorithm-of-bitmap-getbrightness-in-c-sharp
   static float GetBrightness(Color c) {
-    float r = (float)c.r / 255.0f;
-    float g = (float)c.g / 255.0f;
-    float b = (float)c.b / 255.0f;
+    float r = c.r ;
+    float g = c.g ;
+    float b = c.b ;
 
     float max, min;
 
@@ -87,9 +87,20 @@ namespace Utils {
     }
     float brightness = GetBrightness(tintColor);
     ArgbColor c;
-    c.r = Cap((int)(1. - brightness) * hitColor.r + CapMin(tintColor.r, 0) * 255. / 205., 255);
-    c.g = Cap((int)(1. - brightness) * hitColor.g + CapMin(tintColor.g, 0) * 255. / 205., 255);
-    c.b = Cap((int)(1. - brightness) * hitColor.b + CapMin(tintColor.b, 0) * 255. / 205., 255);
+//    c.r = Cap((int)((1.0 - brightness) * (hitColor.r * 255.0) + CapMin(tintColor.r * 255.0, 0) * 255. / (205. * 255.0)), 1.0);
+//    c.g = Cap((int)((1.0 - brightness) * (hitColor.g * 255.0) + CapMin(tintColor.g * 255.0, 0) * 255. / (205. * 255.0)), 1.0);
+//    c.b = Cap((int)((1.0 - brightness) * (hitColor.b * 255.0) + CapMin(tintColor.b * 255.0, 0) * 255. / (205. * 255.0)), 1.0);
+
+      int R = Cap((int)((1 - brightness) * hitColor.r * 255.0) + CapMin(tintColor.r * 255.0, 0) * 255 / 205, 255);
+      int G = Cap((int)((1 - brightness) * hitColor.g * 255.0) + CapMin(tintColor.g * 255.0, 0) * 255 / 205, 255);
+      int B = Cap((int)((1 - brightness) * hitColor.b * 255.0) + CapMin(tintColor.b * 255.0, 0) * 255 / 205, 255);
+
+      //convert to float
+       c.r = CapMin(R / 255.0 , 0);
+    c.g = CapMin(G / 255.0 , 0);
+    c.b = CapMin(B / 255.0 , 0);
+
+
     return c;
   }
 

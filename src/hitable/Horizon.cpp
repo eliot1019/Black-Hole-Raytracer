@@ -15,7 +15,7 @@ using namespace cv;
 Horizon::Horizon(Mat texture, bool checkered) : textureMap(texture.cols, texture.rows) {
 	this->checkered = checkered;
 	textureWidth = texture.cols;
-	textureBitmap = Utils::getNativeTextureBitmap(texture);
+	textureBitmap = texture;
 }
 
 
@@ -36,13 +36,13 @@ bool Horizon::Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double p
             double m2 = Utils::DoubleMod(tempPhi, 1.04719); // Pi / 3
             if ((m1 < 0.52359) ^ (m2 < 0.52359)) { // Pi / 6
                 //col = Color.Green
-                col = Color(0., 1., 0.);
+                col = ArgbColor(1, 0, 0.5, 0);
             }
         }
         else if (!textureBitmap.empty()) {
           int xPos, yPos;
           textureMap.Map(r, theta, -phi, xPos, yPos);
-          col = ArgbColor::fromArgb(textureBitmap.at<uint32_t>(yPos, xPos));
+          col = ArgbColor::fromArgb(textureBitmap.at<Vec4b>(yPos, xPos));
         }
         color = Utils::AddColor(col, color);
         stop = true;
