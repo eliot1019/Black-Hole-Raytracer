@@ -17,17 +17,18 @@ namespace BlackHoleRaytracer {
   private:
       int width;
       int height;
-      Scene scene;
+      Scene *scene;
 
       Mat outputBitmap;
       String outputFileName;
       const int NumIterations = 10000;
+       std::vector<std::thread*> workerThreads;  ///< pool of worker threads
 
 
   public:
-      SchwarzschildRayProcessor(int width, int height, Scene scene, string outputFileName);
+      SchwarzschildRayProcessor(int width, int height, Scene *scene, string outputFileName);
       void Process();
-      void RayTraceThread(ThreadParams *threadParams);
+      void RayTraceThread(ThreadParams &threadParams);
 
   };
 

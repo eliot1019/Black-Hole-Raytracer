@@ -28,13 +28,13 @@ public:
 
     Sky *SetTextureOffset(double offset);
 
-    bool Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
-        double prevSqrNorm, Vector3D &velocity, SchwarzschildBlackHoleEquation equation,
-        double r, double theta, double phi, ArgbColor &color, bool &stop, bool debug);
+    bool Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
+           Vector3D& velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
+           double phi, ArgbColor& color, bool stop, bool debug);
 
 
-protected:
-    Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);
+//protected:
+//    Vector3D IntersectionSearch(Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation);
 
 };
 

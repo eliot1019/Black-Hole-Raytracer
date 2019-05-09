@@ -1,30 +1,48 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "CGL/CGL.h"
-#include <CGL/vector3D.h>
+#include "CGL/Vector3D.h"
 #include "Scene.h"
 #include "SchwarzschildRayProcessor.h"
+#include "hitable/IHitable.h"
+#include "hitable/TexturedDisk.h"
+#include "hitable/Horizon.h"
+#include "hitable/Sky.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
+using namespace BlackHoleRaytracer;
 
 int main( int argc, char** argv ) {
-  Vector3D cameraPos = new Vector3D(0, 3, -20);
-  Vector3D lookAt = new Vector3D(0, 0, 0);
-  Vector3D up = new Vector3D(-0.3f, 1, 0);
-  float fov = 55f;
-  float curvatureCoeff = -1.5f;
-  float angularMomentum = 0;
-  string fileName = "image.png";
+  Vector3D cameraPos = Vector3D(0, 3, -20);
+  Vector3D lookAt = Vector3D(0, 0, 0);
+  Vector3D up = Vector3D(-0.3, 1, 0);
+  float fov = 55.0;
+  float curvatureCoeff = -1.5;
+  float angularMomentum = 0.0;
+  string fileName = "output_image.png";
 
-   // TODO: override default vars through command line args ?
+  std::vector<IHitable *> hitables;
 
-  //  Vector3D<IHitable *> &hitables = new Vector3D<IHitable>;
+  Mat diskImg = imread("disk_textured.png", 1);
+  Mat skyImg = imread("sky8k.jpg", 1);
+  Mat diskImgBmp, skyImgBmp;
+  diskImg.convertTo(diskImgBmp, CV_32SC4);
+  skyImg.convertTo(skyImgBmp, CV_32SC4);
 
-  // TODO: append these to the vector3D hitables list
-  //   new TexturedDisk(2.6, 12.0, new Bitmap("disk_textured.png")), // TODO: are we using `new Mat(...)` rather than  `new Bitmap(...)` ?
-  //   new Horizon(null, false),
-  //   new Sky(new Bitmap("sky8k.jpg"), 30).SetTextureOffset(Math.PI / 2),
+  Mat horzTexture;
 
-    Scene scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
+  cout << "disk_textured columns " << diskImgBmp.cols << endl;
+  cout << "sky columns " << skyImg.cols << endl;
+  cout << "skybmp columns " << skyImgBmp.cols << endl;
 
-  // new SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process(); // TODO: fix this after SchwarzschildRayProcessor PR gets merged
+  hitables.push_back(new TexturedDisk(2.6, 12.0, diskImgBmp));
+  hitables.push_back(new Horizon(horzTexture, false));
+  hitables.push_back((new Sky(skyImgBmp, 30))->SetTextureOffset(M_PI / 2));
+
+  Scene *scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
+
+  SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process();
 }

@@ -19,10 +19,9 @@ Horizon::Horizon(Mat texture, bool checkered) : textureMap(texture.cols, texture
 }
 
 
-bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
-    double prevSqrNorm, Vector3D &velocity,
-    SchwarzschildBlackHoleEquation equation, double r, double theta,
-    double phi, ArgbColor &color, bool &stop, bool debug) {
+bool Horizon::Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
+                       Vector3D& velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
+                       double phi, ArgbColor& color, bool stop, bool debug) {
 
     // Has the ray fallen past the horizon?
     if (prevSqrNorm > 1 && sqrNorm < 1) {
@@ -54,15 +53,15 @@ bool Horizon::Hit(Vector3D &point, double sqrNorm, Vector3D prevPoint,
 }
 
 Vector3D Horizon::IntersectionSearch(Vector3D prevPoint, Vector3D velocity,
-                                     SchwarzschildBlackHoleEquation equation) {
-    float stepLow = 0, stepHigh = equation.StepSize;
+                                     SchwarzschildBlackHoleEquation *equation) {
+    float stepLow = 0, stepHigh = equation->StepSize;
     Vector3D newPoint = prevPoint;
     Vector3D tempVelocity;
     while (true) {
         float stepMid = (stepLow + stepHigh) / 2;
         newPoint = prevPoint;
         tempVelocity = velocity;
-        equation.Function(newPoint, tempVelocity, stepMid);
+        equation->Function(newPoint, tempVelocity, stepMid);
 
         double distance = newPoint.norm2();
         if (abs(stepHigh - stepLow) < 0.00001) {

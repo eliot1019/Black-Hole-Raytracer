@@ -28,7 +28,7 @@ ArgbColor Disk::GetColor(int side, double r, double theta, double phi) {
 
 
 bool Disk::Hit(Vector3D &point, double sqrNorm, Vector3D &prevPoint, double prevSqrNorm,
-              Vector3D &velocity, SchwarzschildBlackHoleEquation equation, double r, double theta,
+              Vector3D &velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
               double phi, ArgbColor &color, bool stop, bool debug) {
   // Remember what side of the plane we're currently on, so that we can detect
   // whether we've crossed the plane after stepping.
@@ -55,15 +55,15 @@ bool Disk::Hit(Vector3D &point, double sqrNorm, Vector3D &prevPoint, double prev
 }
 
 
-Vector3D Disk::IntersectionSearch(int side, Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation equation) {
-  float stepLow = 0, stepHigh = equation.StepSize;
+Vector3D Disk::IntersectionSearch(int side, Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation *equation) {
+  float stepLow = 0, stepHigh = equation->StepSize;
   Vector3D newPoint = prevPoint;
   Vector3D tempVelocity;
   while (true) {
     float stepMid = (stepLow + stepHigh) / 2;
     newPoint = prevPoint;
     tempVelocity = velocity;
-    equation.Function(newPoint, tempVelocity, stepMid);
+    equation->Function(newPoint, tempVelocity, stepMid);
     if (abs(stepHigh - stepLow) < 0.00001) {
       break;
     }

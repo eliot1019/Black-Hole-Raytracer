@@ -8,9 +8,11 @@ using namespace std;
 
 struct ThreadParams {
   int JobId;
-  std::vector<int> LinesList;
-  SchwarzschildBlackHoleEquation Equation;
-  std::thread * Thread;
+  std::vector<int> *LinesList;
+  SchwarzschildBlackHoleEquation *Equation;
+
+  ThreadParams() {}
+
 };
 
 

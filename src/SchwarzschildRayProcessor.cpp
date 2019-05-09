@@ -18,7 +18,7 @@ using namespace CGL;
 using namespace BlackHoleRaytracer;
 using namespace cv;
 
-SchwarzschildRayProcessor::SchwarzschildRayProcessor(int width, int height, Scene scene, string outputFileName) {
+SchwarzschildRayProcessor::SchwarzschildRayProcessor(int width, int height, Scene *scene, string outputFileName) {
   this->width = width;
   this->height = height;
   this->scene = scene;
@@ -34,32 +34,37 @@ void SchwarzschildRayProcessor::Process() {
   // https://stackoverflow.com/questions/27183946/what-does-cv-8uc3-and-the-other-types-stand-for-in-opencv
   outputBitmap = Mat(height, width, CV_32SC4); //rows, cols, type
 
-  int numThreads = 8; //Hardcoded for now? used to be Environment.ProcessorCount;
+  int numThreads = 1; //Hardcoded for now? used to be Environment.ProcessorCount;
   //could try this too: std::thread::hardware_concurrency();
   time_t now = time(0);
-  cout << "Launching " << numThreads << "threads..." << endl;
+  cout << "Launching " << numThreads << " threads..." << endl;
 
-  // create a vector of numThreads size with empty vectors of type int
-  std::vector<std::vector<int>> lineLists(numThreads);
-  std::vector<ThreadParams *> paramList;
+  std::vector<std::vector<int> *> lineLists;
+  std::vector<ThreadParams> paramList;
+  workerThreads.resize(numThreads);
 
   for (int i = 0; i < numThreads; i++) {
-    lineLists[i].resize(0);
-    ThreadParams *tp = (ThreadParams *) malloc(sizeof(ThreadParams));
-    tp->JobId = i;
-    tp->LinesList = lineLists[i];
-    tp->Equation = SchwarzschildBlackHoleEquation(scene.SchwarzschildEquation);
-    tp->Thread = new std::thread(&SchwarzschildRayProcessor::RayTraceThread, tp);
+    std::vector<int> *lineList = new std::vector<int>;
+    lineLists.push_back(lineList);
+    ThreadParams tp;
+    tp.JobId = i;
+    tp.LinesList = lineList;
+    tp.Equation = new SchwarzschildBlackHoleEquation(*scene->SchwarzschildEquation);
     paramList.push_back(tp);
   }
-
-  // not sure what this does
+  cout << "made paramList" << endl;
   for (int j = 0; j < height; j++) {
-    lineLists[j % numThreads].push_back(j);
+    lineLists[j % numThreads]->push_back(j);
+  }
+  cout << "made linelists" << endl;
+  cout << "eliot " << lineLists[0]->size() << endl;
+
+  for (int a = 0; a < numThreads; a++) {
+    workerThreads[a] = new std::thread{&SchwarzschildRayProcessor::RayTraceThread, this, std::ref(paramList[a])};
   }
 
-  for (auto param : paramList) {
-    param->Thread->join();
+  for (int k = 0; k < workerThreads.size(); k++) {
+    workerThreads[k]->join();
   }
 
   imwrite(outputFileName, outputBitmap);
@@ -71,14 +76,13 @@ void SchwarzschildRayProcessor::Process() {
   cout << "Finished in "<< time(0) - now << " seconds." << endl;
 }
 
-void SchwarzschildRayProcessor::RayTraceThread(ThreadParams *threadParams) {
-  ThreadParams param = *threadParams;
-  cout << "Starting thread " << threadParams->JobId << endl;
-  float tanFov = (float) tan((M_PI / 180.0) * scene.Fov);
+void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
+  cout << "Starting thread " << threadParams.JobId << endl;
+  float tanFov = (float) tan((M_PI / 180.0) * scene->Fov);
 
-  Vector3D front = scene.CameraLookAt - scene.CameraPosition;
+  Vector3D front = scene->CameraLookAt - scene->CameraPosition;
   front.normalize();
-  Vector3D left = cross(scene.UpVector, front);
+  Vector3D left = cross(scene->UpVector, front);
   left.normalize();
   Vector3D nUp = cross(front, left);
 
@@ -97,10 +101,13 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams *threadParams) {
   double tempR = 0, tempTheta = 0, tempPhi = 0;
   bool stop = false;
 
+  cout << "test " << threadParams.LinesList->size() << endl;
+
   try
   {
-    for (int y : param.LinesList)
+    for (int y : *(threadParams.LinesList))
     {
+      cout << "got here 1" << endl;
       yOffset = y * width;
       for (x = 0; x < width; x++) {
         color = ArgbColor::Transparent;
@@ -114,26 +121,26 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams *threadParams) {
 
         Vector3D velocity = Vector3D(normView.x, normView.y, normView.z);
 
-        point = scene.CameraPosition;
+        point = scene->CameraPosition;
         sqrNorm = point.norm2();
 
-        param.Equation.SetInitialConditions(point, velocity);
+        threadParams.Equation->SetInitialConditions(point, velocity);
 
         for (int iter = 0; iter < NumIterations; iter++)
         {
           prevPoint = point;
           prevSqrNorm = sqrNorm;
 
-          param.Equation.Function(point, velocity);
+          threadParams.Equation->Function(point, velocity);
           sqrNorm = point.norm2();
 
           Utils::ToSpherical(point.x, point.y, point.z, tempR, tempTheta, tempPhi);
 
           // Check if the ray hits anything
-          for(IHitable hitable : scene.hitables)
+          for(IHitable *hitable : scene->hitables)
           {
             stop = false;
-            if (hitable.Hit(point, sqrNorm, prevPoint, prevSqrNorm, velocity, param.Equation, tempR, tempTheta, tempPhi, color, stop, debug))
+            if (hitable->Hit(point, sqrNorm, prevPoint, prevSqrNorm, velocity, threadParams.Equation, tempR, tempTheta, tempPhi, color, stop, debug))
             {
               if (stop)
               {
@@ -152,13 +159,13 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams *threadParams) {
         outputBitmap.at<uint32_t>(y, x) = color.toArgb();
 
       }
-      cout << "Thread " << param.JobId << ": Line " << y << " rendered." << endl;
+      cout << "Thread " << threadParams.JobId << ": Line " << y << " rendered." << endl;
     }
   }
   catch (Exception &e)
   {
-    cout << "Thread " << param.JobId << ": Error " << e.msg << endl;
+    cout << "Thread " << threadParams.JobId << ": Error " << e.msg << endl;
   }
-  cout << "Thread " << param.JobId << " finished." << endl;
+  cout << "Thread " << threadParams.JobId << " finished." << endl;
 }
 
