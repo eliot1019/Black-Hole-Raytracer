@@ -32,7 +32,8 @@ void SchwarzschildRayProcessor::Process() {
   // CV_<bit-depth>{U|S|F}C(<number_of_channels>)
   // U = unsigned integer, S = signed integer, F = float
   // https://stackoverflow.com/questions/27183946/what-does-cv-8uc3-and-the-other-types-stand-for-in-opencv
-  outputBitmap = Mat(height, width, CV_8UC4); //rows, cols, type
+  outputBitmap = Mat(height, width, CV_8UC3); //rows, cols, type
+  //CV_Assert(outputBitmap.channels() == 4);
 
   int numThreads = 8; //Hardcoded for now? used to be Environment.ProcessorCount;
   //could try this too: std::thread::hardware_concurrency();
@@ -68,11 +69,6 @@ void SchwarzschildRayProcessor::Process() {
   }
 
   imwrite(outputFileName, outputBitmap);
-  //GCHandle gcHandle = GCHandle.Alloc(outputBitmap, GCHandleType.Pinned);
-//  Bitmap resultBmp = new Bitmap(width, height, width * 4, PixelFormat.Format32bppArgb, gcHandle.AddrOfPinnedObject());
-//  resultBmp.Save(outputFileName, ImageFormat.Png);
-//  if (resultBmp != null) { resultBmp.Dispose(); resultBmp = null; }
-//  if (gcHandle.IsAllocated) { gcHandle.Free(); }
   cout << "Finished in "<< time(0) - now << " seconds." << endl;
 }
 
@@ -126,8 +122,7 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
 
         threadParams.Equation->SetInitialConditions(point, velocity);
 
-        for (int iter = 0; iter < NumIterations; iter++)
-        {
+        for (int iter = 0; iter < NumIterations; iter++) {
           prevPoint = point;
           prevSqrNorm = sqrNorm;
 
@@ -137,11 +132,10 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
           Utils::ToSpherical(point.x, point.y, point.z, tempR, tempTheta, tempPhi);
 
           // Check if the ray hits anything
-          for(IHitable *hitable : scene->hitables)
-          {
+          for(IHitable *hitable : scene->hitables) {
             stop = false;
-            if (hitable->Hit(point, sqrNorm, prevPoint, prevSqrNorm, velocity, threadParams.Equation, tempR, tempTheta, tempPhi, color, stop, debug))
-            {
+            if (hitable->Hit(point, sqrNorm, prevPoint, prevSqrNorm, velocity, threadParams.Equation, tempR,
+                tempTheta, tempPhi, color, stop, debug)) {
               if (stop)
               {
                 // The ray has found its stopping point (or rather its starting point).
@@ -149,23 +143,16 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
               }
             }
           }
-          if (stop)
-          {
+          if (stop) {
             break;
           }
-
         }
 
-        Vec4b c;
-        int A = (unsigned char) max( 0., min( 255.0, 255.0 * color.a ));
-        int R = (unsigned char) max( 0., min( 255.0, 255.0 * color.r ));
-        int G = (unsigned char) max( 0., min( 255.0, 255.0 * color.g ));
-        int B = (unsigned char) max( 0., min( 255.0, 255.0 * color.b ));
-        c[0] = B;
-        c[1] = G;
-        c[2] = R;
-        c[3] = A;
-        outputBitmap.at<Vec4b>(y, x) = c;
+        Vec3b c;
+        c[0] = (uchar)color.b;
+        c[1] = (uchar)color.g;
+        c[2] = (uchar)color.r;
+        outputBitmap.at<Vec3b>(y, x) = c;
         //cout << c << endl;
 
       }

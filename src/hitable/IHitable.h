@@ -13,7 +13,7 @@ class IHitable {
     ~IHitable(){}
     virtual bool Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
       Vector3D& velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
-      double phi, ArgbColor& color, bool stop, bool debug) = 0;
+      double phi, ArgbColor& color, bool &stop, bool debug) = 0;
 
 };
 

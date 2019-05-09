@@ -22,15 +22,15 @@ int main( int argc, char** argv ) {
   float fov = 55.0;
   float curvatureCoeff = -1.5;
   float angularMomentum = 0.0;
-  string fileName = "output_image.png";
+  string fileName = "output_image.jpg";
 
   std::vector<IHitable *> hitables;
 
-  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/disk_textured.png", IMREAD_UNCHANGED);
-  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/sky8k.png", IMREAD_UNCHANGED);
+  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/disk_textured.png", 1);
+  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/sky8k.jpg", 1);
   Mat diskImgBmp, skyImgBmp;
-  diskImg.convertTo(diskImgBmp, CV_8UC4);
-  skyImg.convertTo(skyImgBmp, CV_8UC4);
+  diskImg.convertTo(diskImgBmp, CV_8UC3);
+  skyImg.convertTo(skyImgBmp, CV_8UC3);
 
   Mat horzTexture;
 
@@ -40,5 +40,5 @@ int main( int argc, char** argv ) {
 
   Scene *scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
 
-  SchwarzschildRayProcessor(400, 200, scene, fileName).Process();
+  SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process();
 }

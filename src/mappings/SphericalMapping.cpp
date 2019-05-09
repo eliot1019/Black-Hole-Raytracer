@@ -10,13 +10,9 @@ using namespace std;
 SphericalMapping::SphericalMapping(int sizex, int sizey) {
     this->SizeX = sizex;
     this->SizeY = sizey;
-    //cout << "Set sizeX to " << SizeX << endl;
 }
 
 void SphericalMapping::Map(const double r, const double theta, const double phi, int &x, int &y) {
-    //cout << "phi " << phi << endl;
-    //cout << "sizex " << SizeX << endl;
-
   x = (int) ((phi / (2.0 * M_PI)) * SizeX) % SizeX;
     y = (int)((theta / M_PI) * SizeY) % SizeY;
 

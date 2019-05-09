@@ -23,16 +23,17 @@ Sky::Sky(Mat texture, double radius) : textureMap(texture.cols, texture.rows) {
 
 Sky *Sky::SetTextureOffset(double offset) {
     textureOffset = offset;
-    return this; // may need to change return type of function to Sky* instead
+    return this;
 }
 
 bool Sky::Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
                    Vector3D& velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
-                   double phi, ArgbColor& color, bool stop, bool debug) {
+                   double phi, ArgbColor& color, bool &stop, bool debug) {
+    // Has the ray escaped to infinity?
     if (sqrNorm > radiusSqr) {
         int xPos, yPos;
         textureMap.Map(r, theta, phi, xPos, yPos);
-        color = Utils::AddColor(ArgbColor::fromArgb(textureBitmap.at<Vec4b>(yPos, xPos)), color);
+        color = Utils::AddColor(ArgbColor::fromArgb(textureBitmap.at<Vec3b>(yPos, xPos)), color);
         stop = true;
         return true;
     }

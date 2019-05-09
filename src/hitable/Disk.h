@@ -24,12 +24,12 @@ class Disk : public IHitable{
 
     bool Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
         Vector3D& velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
-        double phi, ArgbColor& color, bool stop, bool debug);
+        double phi, ArgbColor& color, bool &stop, bool debug);
 
   protected:
     Vector3D IntersectionSearch(int side, Vector3D prevPoint, Vector3D velocity, SchwarzschildBlackHoleEquation *equation);
 
-    ArgbColor GetColor(int side, double r, double theta, double phi);
+    virtual ArgbColor GetColor(int side, double r, double theta, double phi);
 
 };
 

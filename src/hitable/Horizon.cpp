@@ -12,16 +12,21 @@ using namespace CGL;
 using namespace std;
 using namespace cv;
 
-Horizon::Horizon(Mat texture, bool checkered) : textureMap(texture.cols, texture.rows) {
+Horizon::Horizon(Mat texture, bool checkered)  {
 	this->checkered = checkered;
-	textureWidth = texture.cols;
-	textureBitmap = texture;
+	if (!texture.empty()) {
+	  cout << "horizon texture is not empty" << endl;
+    textureWidth = texture.cols;
+    textureBitmap = texture.clone();
+    textureBitmapIsNull = false;
+    textureMap = new SphericalMapping(texture.cols, texture.rows);
+	}
 }
 
 
 bool Horizon::Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double prevSqrNorm,
                        Vector3D& velocity, SchwarzschildBlackHoleEquation *equation, double r, double theta,
-                       double phi, ArgbColor& color, bool stop, bool debug) {
+                       double phi, ArgbColor& color, bool &stop, bool debug) {
 
     // Has the ray fallen past the horizon?
     if (prevSqrNorm > 1 && sqrNorm < 1) {
@@ -36,17 +41,18 @@ bool Horizon::Hit(Vector3D& point, double sqrNorm, Vector3D& prevPoint, double p
             double m2 = Utils::DoubleMod(tempPhi, 1.04719); // Pi / 3
             if ((m1 < 0.52359) ^ (m2 < 0.52359)) { // Pi / 6
                 //col = Color.Green
-                col = ArgbColor(1, 0, 0.5, 0);
+                col = ArgbColor(0xFF, 0x00, 0x80, 0x00);
             }
         }
-        else if (!textureBitmap.empty()) {
+        else if (!textureBitmapIsNull) {
+          cout << "texturebitmap for horizon not null" << endl;
           int xPos, yPos;
-          textureMap.Map(r, theta, -phi, xPos, yPos);
-          col = ArgbColor::fromArgb(textureBitmap.at<Vec4b>(yPos, xPos));
+          textureMap->Map(r, theta, -phi, xPos, yPos);
+          col = ArgbColor::fromArgb(textureBitmap.at<Vec3b>(yPos, xPos));
         }
         color = Utils::AddColor(col, color);
+        //cout << color << endl;
         stop = true;
-
         return true;
     }
     return false;
