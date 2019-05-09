@@ -108,9 +108,9 @@ namespace Utils {
   // Transform a 3D Vector using a homogenous coord transform matrix
   // https://github.com/microsoft/referencesource/blob/master/System.Numerics/System/Numerics/Vector3.cs
   static Vector3D *transform(Vector3D position, Matrix4x4 matrix) {
-    return new Vector3D(position.x * matrix[0][0] + position.y * matrix[1][0] + position.z * matrix[2][0] + matrix[3][0],
-                        position.x * matrix[0][1] + position.y * matrix[1][1] + position.z * matrix[2][1] + matrix[3][1],
-                        position.x * matrix[0][2] + position.y * matrix[1][2] + position.z * matrix[2][3] + matrix[3][2]
+    return new Vector3D(position.x * matrix(0,0) + position.y * matrix(1,0) + position.z * matrix(2,0) + matrix(3,0),
+                        position.x * matrix(0,1) + position.y * matrix(1,1) + position.z * matrix(2,1) + matrix(3,1),
+                        position.x * matrix(0,2) + position.y * matrix(1,2) + position.z * matrix(2,2) + matrix(3,2)
                         );
   }
 

@@ -40,5 +40,5 @@ int main( int argc, char** argv ) {
 
   Scene *scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
 
-  SchwarzschildRayProcessor(352, 240, scene, fileName).Process();
+  SchwarzschildRayProcessor(400, 200, scene, fileName).Process();
 }
