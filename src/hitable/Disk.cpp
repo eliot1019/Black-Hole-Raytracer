@@ -4,7 +4,10 @@
 #include "../mappings/SphericalMapping.h"
 #include "../ArgbColor.h"
 
+#ifdef _WIN32
 #include <corecrt_math_defines.h>
+#endif
+
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "CGL/CGL.h"

@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
+#ifdef _WIN32
 #include <corecrt_math_defines.h>
+#endif
 
 #include "DiscMapping.h"
 #include "CGL/CGL.h"

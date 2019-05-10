@@ -7,7 +7,9 @@
 #include "hitable/Horizon.h"
 #include "hitable/Sky.h"
 
+#ifdef _WIN32
 #include <corecrt_math_defines.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <opencv2/opencv.hpp>
@@ -41,5 +43,5 @@ int main( int argc, char** argv ) {
 
   Scene *scene = new Scene(cameraPos, lookAt, up, fov, hitables, curvatureCoeff, angularMomentum);
 
-  SchwarzschildRayProcessor(1920, 1080, scene, fileName).Process();
+  SchwarzschildRayProcessor(1280, 720, scene, fileName).Process();
 }
