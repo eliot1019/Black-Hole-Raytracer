@@ -14,7 +14,7 @@ using namespace CGL;
 using namespace std;
 using namespace cv;
 
-class TexturedDisk : Disk {
+class TexturedDisk : public Disk {
   private:
     DiscMapping textureMap;
     int textureWidth;

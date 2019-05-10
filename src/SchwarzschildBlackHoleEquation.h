@@ -37,6 +37,11 @@ struct SchwarzschildBlackHoleEquation {
     StepSize = DefaultStepSize;
   }
 
+  SchwarzschildBlackHoleEquation(SchwarzschildBlackHoleEquation &other) {
+    this->StepSize = other.StepSize;
+    this->PotentialCoefficient = other.PotentialCoefficient;
+  }
+
   // Note: this function marked as unsafe in c# code
   void SetInitialConditions(Vector3D& point, Vector3D& velocity) {
     Vector3D c = cross(point, velocity);

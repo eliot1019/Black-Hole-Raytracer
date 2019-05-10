@@ -44,10 +44,10 @@ namespace Utils {
 
   // Used in Utils::AddColor()
   // https://stackoverflow.com/questions/23215600/algorithm-of-bitmap-getbrightness-in-c-sharp
-  static float GetBrightness(Color c) {
-    float r = (float)c.r / 255.0f;
-    float g = (float)c.g / 255.0f;
-    float b = (float)c.b / 255.0f;
+  static float GetBrightness(ArgbColor c) {
+    float r = (float) c.r / 255.0f;
+    float g = (float) c.g / 255.0f;
+    float b = (float) c.b / 255.0f;
 
     float max, min;
 
@@ -59,7 +59,7 @@ namespace Utils {
     if (g < min) min = g;
     if (b < min) min = b;
 
-    return (max + min) / 2;
+    return (max + min) / 2.0;
   }
 
   static int Cap(int x, int max) {
@@ -87,9 +87,10 @@ namespace Utils {
     }
     float brightness = GetBrightness(tintColor);
     ArgbColor c;
-    c.r = Cap((int)(1. - brightness) * hitColor.r + CapMin(tintColor.r, 0) * 255. / 205., 255);
-    c.g = Cap((int)(1. - brightness) * hitColor.g + CapMin(tintColor.g, 0) * 255. / 205., 255);
-    c.b = Cap((int)(1. - brightness) * hitColor.b + CapMin(tintColor.b, 0) * 255. / 205., 255);
+    c.r = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.r) + CapMin(tintColor.r , 0) * 255 / 205), 255);
+    c.g = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.g) + CapMin(tintColor.g , 0) * 255 / 205), 255);
+    c.b = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.b) + CapMin(tintColor.b , 0) * 255 / 205), 255);
+    c.a = (uint8_t) 0xFF;
     return c;
   }
 
@@ -97,9 +98,9 @@ namespace Utils {
   // Transform a 3D Vector using a homogenous coord transform matrix
   // https://github.com/microsoft/referencesource/blob/master/System.Numerics/System/Numerics/Vector3.cs
   static Vector3D *transform(Vector3D position, Matrix4x4 matrix) {
-    return new Vector3D(position.x * matrix[0][0] + position.y * matrix[1][0] + position.z * matrix[2][0] + matrix[3][0],
-                        position.x * matrix[0][1] + position.y * matrix[1][1] + position.z * matrix[2][1] + matrix[3][1],
-                        position.x * matrix[0][2] + position.y * matrix[1][2] + position.z * matrix[2][3] + matrix[3][2]
+    return new Vector3D(position.x * matrix(0,0) + position.y * matrix(1,0) + position.z * matrix(2,0) + matrix(3,0),
+                        position.x * matrix(0,1) + position.y * matrix(1,1) + position.z * matrix(2,1) + matrix(3,1),
+                        position.x * matrix(0,2) + position.y * matrix(1,2) + position.z * matrix(2,2) + matrix(3,2)
                         );
   }
 

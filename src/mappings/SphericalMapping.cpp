@@ -8,12 +8,12 @@ using namespace CGL;
 using namespace std;
 
 SphericalMapping::SphericalMapping(int sizex, int sizey) {
-    SizeX = sizex;
-    SizeY = sizey;
+    this->SizeX = sizex;
+    this->SizeY = sizey;
 }
 
 void SphericalMapping::Map(const double r, const double theta, const double phi, int &x, int &y) {
-    x = (int)((phi / (2. * M_PI)) * SizeX) % SizeX;
+  x = (int) ((phi / (2.0 * M_PI)) * SizeX) % SizeX;
     y = (int)((theta / M_PI) * SizeY) % SizeY;
 
     if (x < 0) {
