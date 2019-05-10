@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <corecrt_math_defines.h>
 
 #include "SphericalMapping.h"
 #include "CGL/CGL.h"

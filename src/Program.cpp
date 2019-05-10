@@ -7,6 +7,7 @@
 #include "hitable/Horizon.h"
 #include "hitable/Sky.h"
 
+#include <corecrt_math_defines.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <opencv2/opencv.hpp>

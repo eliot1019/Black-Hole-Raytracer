@@ -8,6 +8,7 @@
 #include "hitable/IHitable.h"
 #include "ArgbColor.h"
 
+#include <corecrt_math_defines.h>
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <thread>

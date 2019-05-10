@@ -23,7 +23,7 @@ set(APPLICATION_SOURCE
 
 #openCV
 if(WIN32)
-    set(OpenCV_DIR "d:/libs/opencv-2.4.8/build")
+    set(OpenCV_DIR "c:/opencv/build/x64/vc14/lib")
 else()
     set(OpenCV_DIR "/usr/lib/opencv")
 endif()
