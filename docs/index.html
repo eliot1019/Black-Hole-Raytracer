@@ -36,19 +36,18 @@
     <div style="margin-top: 8%; margin-left: 8%; margin-right: 9%; margin-bottom: 7%;">
       <h1>Ray Tracing Black Holes</h1>
       <p style="font-size: 2rem; font-weight: 400;">Eliot Han, Michael Tu, Alejandro Garcia</p>
-
       <div>
         <img class="u-max-full-width" src="images/4k_default.jpg">
       </div>
 
       <hr>
       <h2>Abstract</h2>
-      <p>We created a C++ ray-tracer capable of creating images of a Schwarzschild black hole. We converted an existing implementation of a C# project on C++ achieving a 6 times speed-up. </p>
+      <p>We created a C++ ray-tracer capable of creating images of a Schwarzschild black hole. We converted an existing implementation of a C# project to C++ achieving a 6 times speed-up. </p>
       <hr>
       <h2>Introduction</h2>
       <p>
       Ray tracing is a computer graphics technique used to generate images of 3-D scenes by tracing the paths of "light rays" sent from the observer into the scene.
-      A ray tracing algorithm simulates the behaviour of light as it hits objects in the scene, taking into the account various interactions like shading, reflection and refraction.
+      A ray tracing algorithm simulates the behaviour of light as it hits objects in the scene, taking into account various interactions like shading, reflection and refraction.
       Ray tracing is a good way to simulate various physical phenomena and is capable of rendering artificial images with highly detailed levels of realism.
       </p>
 
@@ -118,10 +117,10 @@
 
       <p>
         Something that was pretty scary throughout most of the project was that we were unable to render anything until almost all the pieces
-        fit together. Even after we thought we completed the necessary components, we were unable to produce any discernable results for a long time.
+        fit together. Even after we thought we completed the necessary components, we were unable to produce any good results for a long time.
         One of the major problems we had to deal with was color space conversion issues from OpenCV's bgr format in their Mats to our custom ArcgbColor
         which stored color in float values like CGL. We fixed this when we stored the a,r,g,b values in bytes instead and ensured that all C++ operations
-        worked using uint8_t. (side note: why does OpenCV name their data types like 8UCV3)
+        worked using uint8_t. (side note, OpenCV data types are confusing: 8UCV3)
       </p>
 
       <div class="row" style="margin-bottom: 3rem;">
@@ -138,9 +137,9 @@
 
       <p>
         There were also a lot of reference/pointer issues when converting from C#. An interesting one was that at one point, our images
-        were completely all white due to the ray never detecting that it "hit" an object in our core loop.
+        were completely white due to the ray never detecting that it "hit" an object in our core loop.
         The "hit" value was passed by value to the primitives' hit function and thus never became "true" in the core loop.
-        For our multithreading implementation, we emulated the style of multithreading found in project 3-1's Pathtracer.cpp file. We had anticipated
+        For our multithreading implementation, we emulated the style of multithreading found in project 3-1's Pathtracer. We had anticipated
         the multithreading to be much more difficult and started the project aiming for a single threaded approach at first. It was surprising to have it work
         on the first go.
       </p>
@@ -234,9 +233,11 @@
             <a href="https://github.com/dbrant/BlackHoleRaytracer">https://github.com/dbrant/BlackHoleRaytracer</a>
           </li>
           <li>
-            <a href="https://www.youtube.com/watch?v=zUyH3XhpLTo&t=7s">How to Understand the Image of a Black Hole
-            </a>
+            <a href="https://www.youtube.com/watch?v=zUyH3XhpLTo&t=7s">How to Understand the Image of a Black Hole</a>
           </li>
+        <li>
+          <a href="https://www.eso.org/public/usa/images/black-holes-infographic-v2/">ESO Black Hole Infographic</a>
+        </li>
         </ul>
       </p>
       <hr>
