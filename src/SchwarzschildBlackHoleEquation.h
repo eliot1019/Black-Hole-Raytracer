@@ -1,13 +1,12 @@
 #ifndef BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H
 #define BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H
 
-#include "CGL/CGL.h"
-#include "CGL/vector3D.h"
+#include "models/vector3D.h"
 
 #include <vector>
 
 
-using namespace CGL;
+using namespace Models;
 
 struct SchwarzschildBlackHoleEquation {
   const float DefaultStepSize = 0.16f;

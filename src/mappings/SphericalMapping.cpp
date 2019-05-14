@@ -6,9 +6,7 @@
 #endif
 
 #include "SphericalMapping.h"
-#include "CGL/CGL.h"
 
-using namespace CGL;
 using namespace std;
 
 SphericalMapping::SphericalMapping(int sizex, int sizey) {

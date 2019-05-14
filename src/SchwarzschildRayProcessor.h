@@ -1,14 +1,13 @@
 #ifndef BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
 #define BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
 
-#include "CGL/CGL.h"
 #include "SchwarzschildBlackHoleEquation.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "ThreadParams.h"
 #include "Scene.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

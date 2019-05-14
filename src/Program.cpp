@@ -6,8 +6,7 @@
 #include <corecrt_math_defines.h>
 #endif
 
-#include "CGL/CGL.h"
-#include "CGL/Vector3D.h"
+#include "models/Vector3D.h"
 #include "Scene.h"
 #include "SchwarzschildRayProcessor.h"
 #include "hitable/IHitable.h"
@@ -35,9 +34,10 @@ int main(int argc, char** argv) {
   // List of objects in the scene
   std::vector<IHitable *> hitables;
 
-  // Load image from given location and convert to 3 channel matrices
-  Mat diskImg = imread("C:/Users/Mikochi/Documents/Graphics/Black-Hole-Raytracer/src/images/disk_textured_lava.jpg", 1);
-  Mat skyImg = imread("C:/Users/Mikochi/Documents/Graphics/Black-Hole-Raytracer/src/images/starless_background.jpg", 1);
+  // Load image from given location and convert to 3 channel matrices.
+  // Because of an issue with OpenCV on Mac, must use full path on your machine
+  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/images/disk_textured.png", 1);
+  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/images/sky8k.jpg", 1);
   Mat diskImgBmp, skyImgBmp;
   diskImg.convertTo(diskImgBmp, CV_8UC3);
   skyImg.convertTo(skyImgBmp, CV_8UC3);
