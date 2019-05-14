@@ -35,54 +35,158 @@
   <div class="container">
     <div style="margin-top: 8%; margin-left: 8%; margin-right: 9%; margin-bottom: 7%;">
       <h1>Ray Tracing Black Holes</h1>
-      <p style="font-size: 2rem; font-weight: 400;">Elliot Han, Michael Tu, Alejandro Garcia</p>
+      <p style="font-size: 2rem; font-weight: 400;">Eliot Han, Michael Tu, Alejandro Garcia</p>
+
+      <div>
+        <img class="u-max-full-width" src="images/4k_default.jpg">
+      </div>
+
       <hr>
       <h2>Abstract</h2>
-      <p>We created a C++ ray-tracer capable of creating images of a Schwarzschild black hole. We re-implemented an existing implementation of a C# project on C++ achieving a 6 times speed-up. </p>
+      <p>We created a C++ ray-tracer capable of creating images of a Schwarzschild black hole. We converted an existing implementation of a C# project on C++ achieving a 6 times speed-up. </p>
+      <hr>
+      <h2>Introduction</h2>
+      <p>
+      Ray tracing is a computer graphics technique used to generate images of 3-D scenes by tracing the paths of "light rays" sent from the observer into the scene.
+      A ray tracing algorithm simulates the behaviour of light as it hits objects in the scene, taking into the account various interactions like shading, reflection and refraction.
+      Ray tracing is a good way to simulate various physical phenomena and is capable of rendering artificial images with highly detailed levels of realism.
+      </p>
+
+      <p>
+        In this project, we use ray tracing to render a black hole.
+        A black hole is an extreme astronomical object that has a gravitational field so intense that it bends the path of light rays.
+        Black holes are expected to form when massive stars collapse at the end of their life cycles.
+        Their incredible gravitational field causes all kinds of visible distortions in a phenomenon known as gravitational lensing.
+        Our ray tracer renders the simplest kind of black hole, the Schwarzshild Black Hole, which has no charge or angular momentum.
+      </p>
       <hr>
       <h2>Technical approach</h2>
+
       <p>
-          A black hole is an extreme astronomical object that has a gravitational field so intense that it bends the path of light rays. This causes all kinds of visible distortions in a phenomenon known as Gravitational Lensing. We rendered a Schwarzshild Black Hole which has with no charge or angular momentum.
+        To render a black hole, we built a nonlinear raytracer - one that works in the curved space-time near the black hole.
+        As we can no longer rely on the geometry of straight lines, we calculate the path of each ray in a stepwise fashion.
+        In each time step, we update the velocity & position of the ray using a linear equation that reduces the equations of motions for a null geodesic or massless particle around a Schwarzschild black hole.
+        The derivation of this equation is beyond our understanding as it requires knowledge on astrophysics and the laws of General Relativity which none of us are familiar with.
+        However, we chose to use it due to its simplicity and speed. The derivation is done by Riccardo Antonelli in his project <a href="http://rantonels.github.io/starless/">Starless</a>.
       </p>
+
+      <div>
+        <img align="u-center" src="images/equation.png">
+      </div>
+
       <p>
-          This is a nonlinear raytracer as it works in a curved space We calculate the path of each ray in a stepwise fashion as we can no longer rely on the geometry of straight lines. In each time step we update the velocity & position of the ray using a linear equation that reduces the equations of motions for a null geodesic or massless particle around Schwarzschild black hole.
 
       </p>
       <p>
         We ray trace by drawing a ray from the camera position to a pixel in our scene. However, instead of traveling in a straight line, our ray will curve based on our equation of motion. We step the ray and stop on intersection with our scene.
       </p>
       <p>
-        Our scene consists of primitives which the ray can intersect. These are the main parts of our black hole, the Accretion disk, Event horizon and the background sky. Upon intersection with a primitive, using texture mapping techniques we retrieve the rgb values for our pixels
+        Our scene consists of primitives which the ray can intersect.
+        These are the main parts of our black hole: the accretion disk, event horizon and background sky.
+        Upon intersection with a primitive, using texture mapping techniques we retrieve the rgb values for our pixels.
+        The sky and horizon use spherical mapping and the disk, which is specified by an inner and outer radius, uses disc mapping.
       </p>
       <div class="row" style="margin-bottom: 3rem;">
-          <div class="six columns">
-            <img class="u-max-full-width" src="images/background1.png" alt="C# Implementation">
-          </div>
-          <div class="six columns">
-              <img class="u-max-full-width" src="images/background2.png" alt="C# Implementation">
-          </div>
+            <img class="u-max-full-width" src="images/diagram.png">
+            <p> Illustration: ESO, ESA/Hubble, M.Kornmesser/N.Bartmann</p>
+      </div>
+
+    <p>
+      Something of interest to note in our renderings is that the black circle in the middle of the black hole is not actually the event horizon
+      but is the photon sphere, a location where gravity is so strong that light travels in circles at the limit.
+      This means what you see at that location is not actually there in space. This is because photons that travel into the photon sphere from the
+      outside cannot escape and are "sucked into" the event horizon. As depicted below, parallel light rays from an observer will bend into
+      the black hole’s event horizon unless the light ray is outside the photon sphere or 2.6 Schwarzschild radii away from the center.
+
+    </p>
+
+      <div>
+        <img class="u-max-full-width" src="images/background2.png">
+        <p>Taken from youtu.be/zUyH3XhpLTo</p>
+      </div>
+
+      <hr>
+      <h2>Implementation</h2>
+      <p>
+          Instead of directly converting Starless, we decided to try converting a <a href="https://github.com/dbrant/BlackHoleRaytracer/">C# project</a> by Dmitry Brant to C++ instead.
+        We chose to do this because Brant's project was based off parts of Starless and because we thought the conversion from C# to C++ would be
+        easier than Python to C++.
+        Our group started the project by experimenting with various libraries to replace the Microsoft System package used by the C# project. For image
+        manipulation and Bitmap operations, we settled on OpenCV's imRead/imWrite functions and Mat class. We ended up replacing other C# built ins like
+        ARGBColor, Matrix/Vector operations with our own implementations similar to the ones found in the CGL library we used in the other class projects.
+      </p>
+
+      <p>
+        Something that was pretty scary throughout most of the project was that we were unable to render anything until almost all the pieces
+        fit together. Even after we thought we completed the necessary components, we were unable to produce any discernable results for a long time.
+        One of the major problems we had to deal with was color space conversion issues from OpenCV's bgr format in their Mats to our custom ArcgbColor
+        which stored color in float values like CGL. We fixed this when we stored the a,r,g,b values in bytes instead and ensured that all C++ operations
+        worked using uint8_t. (side note: why does OpenCV name their data types like 8UCV3)
+      </p>
+
+      <div class="row" style="margin-bottom: 3rem;">
+        <div class="six columns">
+          <img class="u-max-full-width" src="images/first_render.png" alt="C# Implementation">
+          <p>The first render where stuff something happened</p>
         </div>
+        <div class="six columns">
+          <img class="u-max-full-width" src="images/rays.png" alt="C# Implementation">
+          <p>You can see rays of some kind</p></b>
+          </p>
+        </div>
+      </div>
+
+      <p>
+        There were also a lot of reference/pointer issues when converting from C#. An interesting one was that at one point, our images
+        were completely all white due to the ray never detecting that it "hit" an object in our core loop.
+        The "hit" value was passed by value to the primitives' hit function and thus never became "true" in the core loop.
+        For our multithreading implementation, we emulated the style of multithreading found in project 3-1's Pathtracer.cpp file. We had anticipated
+        the multithreading to be much more difficult and started the project aiming for a single threaded approach at first. It was surprising to have it work
+        on the first go.
+      </p>
+
+      <div class="row" style="margin-bottom: 3rem;">
+        <div class="six columns">
+          <img class="u-max-full-width" src="images/first_blackhole.png" alt="C# Implementation">
+          <p>First image with some kind of black hole</p>
+        </div>
+        <div class="six columns">
+          <img class="u-max-full-width" src="images/first_correct.png" alt="C# Implementation">
+          <p>The first correct image</p></b>
+          </p>
+        </div>
+      </div>
+
       <hr>
       <h2>Results</h2>
-      <p>
-          There are several different black hole raytracers online including a famous python one, Starless and several in c#. One challenge are group faced in writing our own raytracer were finding suitable replacements for c++ that could replace things like numpy or microsoft’s system libraries. Our results payed off however as our raytracer was up to 6 times faster than a comparable c# project and twice as fast as Starless.
-      </p>
-      <p>
-          Going forwards, some things we could take on next are simulating Kerr black holes, a kind of black hole that spins, or rendering  diffuse bodies  like planets in our scene.
-      </p>
       <div class="row" style="margin-bottom: 3rem;">
         <div class="six columns">
           <img class="u-max-full-width" src="images/cs_implementation.png" alt="C# Implementation">
-          <p>Brant’s C# implementation running on 8 threads rendering at 1920 by 1080:  294.67 s</p>
+          <p>C# implementation running on 8 threads rendering at 1920 by 1080:  294.67 s</p>
         </div>
         <div class="six columns">
             <img class="u-max-full-width" src="images/cpp_implementation.png" alt="C# Implementation">
           <p>
             Our C++ implementation running on 8 threads
-            at 1920 by 1080 with the same textures: <b>53.25 s</b>
+            at 1920 by 1080 with same textures: <b>53.25 s</b>
           </p>
         </div>
       </div>
+      <p> Our ray tracer was up to 6 times faster than Brant's C# one. We also ran the same test on the Starless python project which took 113.5s to
+        render the same scene. We ran all these tests on a single computer and averaged our results but something to note is that results varied
+        even when running the same scene on the same project. For more accurate testing, we should have used a VM on one of the instructional machines.
+      </p>
+      <p>
+        Despite our imperfect testing methodology, our implementation was always faster.
+        We surmise this speed increase is due to several factors: our choice of a highly optimized open source project in OpenCV
+        as our image manipulation library, a C++ executable being faster than the JIT compiled C# project or interpreted Python, and finally
+        our well optimized multithreading implementation.
+      </p>
+
+
+      <p>
+        Going forwards, some things we could take on next are simulating Kerr black holes, a kind of black hole that spins, or rendering  diffuse bodies  like planets in our scene.
+      </p>
       <!-- <div class="row" style="margin-bottom: 3rem;">
           <h3>Animated Gifs</h3>
           <img class="u-max-full-width" src="images/zoomingin_100frames.gif">
@@ -90,12 +194,31 @@
           <img class="u-max-full-width" src="images/supernova_xrotation_220_35ms.gif">
       </div> -->
       <div class="row" style="margin-bottom: 3rem;">
-        <h3>Additional Renderings with different textures</h3>
+        <h3>Gallery</h3>
         <img class="u-max-full-width" src="images/1.png">
         <img class="u-max-full-width" src="images/2.png">
         <img class="u-max-full-width" src="images/3.png">
         <img class="u-max-full-width" src="images/4.png">
       </div>
+
+      <div>
+       <iframe src="https://giphy.com/embed/UW7vTf6txKVRBmjmi1" width="800" height="500" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/UW7vTf6txKVRBmjmi1">via GIPHY</a></p>
+      </div>
+      <div>
+        <video width="720" height="450" controls>
+          <source src="images/supernova_xrotation_220_35ms.mp4" type="video/mp4">
+          Your browser does not support the video.
+        </video>
+      </div>
+      <div>
+      <video width="800" height="450" controls>
+        <source src="images/cosmic_200frames_5ms.mp4" type="video/mp4">
+        Your browser does not support the video.
+      </video>
+      </div>
+
+
+
       <hr>
       <h2>References</h2>
       <p>
@@ -104,11 +227,15 @@
             <a href="https://github.com/rantonels/starless">https://github.com/rantonels/starless</a>
           </li>
           <li>
-            <a href="https://gitlab.com/EuropeanSpaceAgency/PyHole">https://gitlab.com/EuropeanSpaceAgency/PyHole</a>
+            <a href="https://www.codeproject.com/Articles/994466/Ray-Tracing-a-Black-Hole-in-Csharp">www.codeproject.com/Articles/994466/Ray-Tracing-a-Black-Hole-in-Csharp</a>
           </li>
           </li>
           <li>
-              <b>Existing C# Implementation – </b> <a href="https://dmitrybrant.com/2018/12/11/ray-tracing-black-holes">https://dmitrybrant.com/2018/12/11/ray-tracing-black-holes</a>
+            <a href="https://github.com/dbrant/BlackHoleRaytracer">https://github.com/dbrant/BlackHoleRaytracer</a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/watch?v=zUyH3XhpLTo&t=7s">How to Understand the Image of a Black Hole
+            </a>
           </li>
         </ul>
       </p>
@@ -116,7 +243,7 @@
       <h2>Contributions from each team member</h2>
       <p>
         <ul>
-          <li><b>Eliot Han</b> – TODO</li>
+          <li><b>Eliot Han</b> – Wrote raytracer, black hole primitives, image manipulation, and multithreading code. PMed for the project and created videos.</li>
           <li><b>Michael Tu</b> – TODO</li>
           <li><b>Alejandro Garcia</b> – Setup Program.cpp and Scene.cpp for rendering the black hole. Also, helped with project presentation and final write-up.</li>
         </ul>

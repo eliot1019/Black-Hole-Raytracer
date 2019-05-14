@@ -374,7 +374,12 @@ form {
   float: right; }
 .u-pull-left {
   float: left; }
-
+.u-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 
 /* Misc
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
