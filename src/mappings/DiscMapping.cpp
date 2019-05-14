@@ -8,6 +8,11 @@
 #include "CGL/CGL.h"
 
 DiscMapping::DiscMapping(double rMin, double rMax, int sizeX, int sizeY) {
+  if (sizeX == 0 || sizeY == 0) {
+    // Image may be loaded incorrectly or given the wrong path
+    throw std::overflow_error("Image loaded incorrectly");
+  }
+
   this->rMax = rMax;
   this->rMin = rMin;
   this->sizeX = sizeX;

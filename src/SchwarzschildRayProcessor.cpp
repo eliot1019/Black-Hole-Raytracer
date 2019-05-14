@@ -1,6 +1,15 @@
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <thread>
+#include <ctime>
+
+#ifdef _WIN32
+#include <corecrt_math_defines.h>
+#endif
+
+#include "SchwarzschildRayProcessor.h"
 #include "CGL/CGL.h"
 #include "CGL/Matrix4x4.h"
-#include "SchwarzschildRayProcessor.h"
 #include "SchwarzschildBlackHoleEquation.h"
 #include "ThreadParams.h"
 #include "Scene.h"
@@ -8,20 +17,13 @@
 #include "hitable/IHitable.h"
 #include "ArgbColor.h"
 
-#ifdef _WIN32
-#include <corecrt_math_defines.h>
-#endif
-#include <opencv2/opencv.hpp>
-#include <iostream>
-#include <thread>
-#include <ctime>
-
 
 using namespace CGL;
 using namespace BlackHoleRaytracer;
 using namespace cv;
 
-SchwarzschildRayProcessor::SchwarzschildRayProcessor(int width, int height, Scene *scene, string outputFileName) {
+SchwarzschildRayProcessor::SchwarzschildRayProcessor(int width, int height,
+    Scene *scene, string outputFileName) {
   this->width = width;
   this->height = height;
   this->scene = scene;
@@ -35,11 +37,10 @@ void SchwarzschildRayProcessor::Process() {
   // CV_<bit-depth>{U|S|F}C(<number_of_channels>)
   // U = unsigned integer, S = signed integer, F = float
   // https://stackoverflow.com/questions/27183946/what-does-cv-8uc3-and-the-other-types-stand-for-in-opencv
-  outputBitmap = Mat(height, width, CV_8UC3); //rows, cols, type
-  //CV_Assert(outputBitmap.channels() == 4);
+  outputBitmap = Mat(height, width, CV_8UC3);  // rows, cols, type
+  // CV_Assert(outputBitmap.channels() == 4);
 
-  int numThreads = 8; //Hardcoded for now? used to be Environment.ProcessorCount;
-  //could try this too: std::thread::hardware_concurrency();
+  int numThreads = 8;
   time_t now = time(0);
   cout << "Launching " << numThreads << " threads..." << endl;
 
@@ -53,7 +54,8 @@ void SchwarzschildRayProcessor::Process() {
     ThreadParams tp;
     tp.JobId = i;
     tp.LinesList = lineList;
-    tp.Equation = new SchwarzschildBlackHoleEquation(*scene->SchwarzschildEquation);
+    tp.Equation = new SchwarzschildBlackHoleEquation(
+        *scene->SchwarzschildEquation);
     paramList.push_back(tp);
   }
   cout << "made paramList" << endl;
@@ -61,10 +63,11 @@ void SchwarzschildRayProcessor::Process() {
     lineLists[j % numThreads]->push_back(j);
   }
   cout << "made linelists" << endl;
-  cout << "eliot " << lineLists[0]->size() << endl;
 
   for (int a = 0; a < numThreads; a++) {
-    workerThreads[a] = new std::thread{&SchwarzschildRayProcessor::RayTraceThread, this, std::ref(paramList[a])};
+    workerThreads[a] = new std::thread{
+        &SchwarzschildRayProcessor::RayTraceThread,
+        this, std::ref(paramList[a])};
   }
 
   for (int k = 0; k < workerThreads.size(); k++) {
@@ -100,20 +103,15 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
   double tempR = 0, tempTheta = 0, tempPhi = 0;
   bool stop = false;
 
-  //cout << "test " << threadParams.LinesList->size() << endl;
-
-  try
-  {
-    for (int y : *(threadParams.LinesList))
-    {
-      //cout << "got here 1" << endl;
+  try {
+    for (int y : *(threadParams.LinesList)) {
       yOffset = y * width;
       for (x = 0; x < width; x++) {
         color = ArgbColor::Transparent;
 
         Vector3D view = Vector3D(((float)x / width - 0.5f) * tanFov,
-                               ((-(float)y / height + 0.5f) * height / width) * tanFov,
-                                (float) 1.0);
+            ((-(float)y / height + 0.5f) * height / width) * tanFov,
+            (float) 1.0);
         view = *Utils::transform(view, viewMatrix);
 
         Vector3D normView = view / view.norm();
@@ -132,16 +130,17 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
           threadParams.Equation->Function(point, velocity);
           sqrNorm = point.norm2();
 
-          Utils::ToSpherical(point.x, point.y, point.z, tempR, tempTheta, tempPhi);
+          Utils::ToSpherical(point.x, point.y, point.z,
+              tempR, tempTheta, tempPhi);
 
           // Check if the ray hits anything
-          for(IHitable *hitable : scene->hitables) {
+          for (IHitable *hitable : scene->hitables) {
             stop = false;
-            if (hitable->Hit(point, sqrNorm, prevPoint, prevSqrNorm, velocity, threadParams.Equation, tempR,
+            if (hitable->Hit(point, sqrNorm, prevPoint, prevSqrNorm,
+                velocity, threadParams.Equation, tempR,
                 tempTheta, tempPhi, color, stop, debug)) {
-              if (stop)
-              {
-                // The ray has found its stopping point (or rather its starting point).
+              if (stop) {
+                // Ray has found its stopping point
                 break;
               }
             }
@@ -156,16 +155,13 @@ void SchwarzschildRayProcessor::RayTraceThread(ThreadParams &threadParams) {
         c[1] = (uchar)color.g;
         c[2] = (uchar)color.r;
         outputBitmap.at<Vec3b>(y, x) = c;
-        //cout << c << endl;
-
       }
-      cout << "Thread " << threadParams.JobId << ": Line " << y << " rendered." << endl;
+      cout << "Thread " << threadParams.JobId <<
+          ": Line " << y << " rendered." << endl;
     }
   }
-  catch (Exception &e)
-  {
+  catch (Exception &e) {
     cout << "Thread " << threadParams.JobId << ": Error " << e.msg << endl;
   }
   cout << "Thread " << threadParams.JobId << " finished." << endl;
 }
-

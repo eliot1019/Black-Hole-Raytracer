@@ -14,7 +14,7 @@ using namespace std;
 using namespace cv;
 
 struct Scene {
-  public:
+ public:
     Vector3D CameraPosition;
     Vector3D CameraLookAt;
     Vector3D UpVector;
@@ -30,7 +30,8 @@ struct Scene {
 
 
 
-    Scene(Vector3D &CameraPosition, Vector3D &CameraLookAt, Vector3D &UpVector, float Fov, vector<IHitable *> hitables,
+    Scene(Vector3D &CameraPosition, Vector3D &CameraLookAt,
+        Vector3D &UpVector, float Fov, vector<IHitable *> hitables,
         float CurvatureCoeff, float AngularMomentum) {
       this->CameraPosition = CameraPosition;
       this->CameraLookAt = CameraLookAt;
@@ -42,13 +43,13 @@ struct Scene {
       double tempTheta = 0;
       double tempPhi = 0;
 
-      Utils::ToSpherical(CameraPosition.x, CameraPosition.y, CameraPosition.z, tempR, tempTheta, tempPhi);
+      Utils::ToSpherical(CameraPosition.x, CameraPosition.y, CameraPosition.z,
+          tempR, tempTheta, tempPhi);
       this->CameraDistance = tempR;
       this->CameraAngleVert = tempTheta;
       this->CameraAngleHorz = tempPhi - 0.1;
       this->SchwarzschildEquation = new SchwarzschildBlackHoleEquation(CurvatureCoeff);
     }
-
 };
 
-#endif // SCENE_H
+#endif  // SCENE_H

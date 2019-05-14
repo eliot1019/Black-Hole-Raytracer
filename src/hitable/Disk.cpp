@@ -1,17 +1,17 @@
-#include "Disk.h"
-#include "../SchwarzschildBlackHoleEquation.h"
-#include "../utils.h"
-#include "../mappings/SphericalMapping.h"
-#include "../ArgbColor.h"
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <CGL/vector3D.h>
 
 #ifdef _WIN32
 #include <corecrt_math_defines.h>
 #endif
 
-#include <opencv2/opencv.hpp>
-#include <iostream>
+#include "Disk.h"
 #include "CGL/CGL.h"
-#include <CGL/vector3D.h>
+#include "../SchwarzschildBlackHoleEquation.h"
+#include "../utils.h"
+#include "../mappings/SphericalMapping.h"
+#include "../ArgbColor.h"
 
 
 using namespace CGL;
@@ -26,7 +26,6 @@ Disk::Disk(const double radiusInner, const double radiusOuter) {
 }
 
 ArgbColor Disk::GetColor(int side, double r, double theta, double phi) {
-  // white
   return ArgbColor::White;
 }
 

@@ -14,19 +14,22 @@ using namespace cv;
 
 namespace Utils {
 
-  static void ToCartesian(const double r, const double theta, const double phi, double &x, double &y, double &z) {
+  static void ToCartesian(const double r, const double theta, const double phi,
+                          double &x, double &y, double &z) {
     x = r * cos(phi) * sin(theta);
     y = r * sin(phi) * sin(theta);
     z = r * cos(theta);
   }
 
-  static void ToSpherical(const double x, const double y, const double z, double &r, double &theta, double &phi) {
+  static void ToSpherical(const double x, const double y, const double z,
+                          double &r, double &theta, double &phi) {
     r = sqrt(x * x + y * y + z * z);
     phi = atan2(y, x);
     theta = acos(z / r);
   }
 
-  static void ToSpherical(const Vector3D v, double &r, double &theta, double &phi) {
+  static void ToSpherical(const Vector3D v, double &r,
+                          double &theta, double &phi) {
     r = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
     phi = atan2(v.y, v.x);
     theta = acos(v.z / r);
@@ -65,8 +68,7 @@ namespace Utils {
   static int Cap(int x, int max) {
     if (x > max) {
       return max;
-    }
-    else {
+    } else {
       return x;
     }
   }
@@ -74,22 +76,23 @@ namespace Utils {
   static int CapMin(int x, int min) {
     if (x < min) {
       return min;
-    }
-    else {
+    } else {
       return x;
     }
   }
 
   static ArgbColor AddColor(ArgbColor hitColor, ArgbColor tintColor) {
-    if (tintColor == ArgbColor::Transparent)
-    {
+    if (tintColor == ArgbColor::Transparent) {
       return hitColor;
     }
     float brightness = GetBrightness(tintColor);
     ArgbColor c;
-    c.r = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.r) + CapMin(tintColor.r , 0) * 255 / 205), 255);
-    c.g = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.g) + CapMin(tintColor.g , 0) * 255 / 205), 255);
-    c.b = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.b) + CapMin(tintColor.b , 0) * 255 / 205), 255);
+    c.r = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.r) +
+                    CapMin(tintColor.r , 0) * 255 / 205), 255);
+    c.g = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.g) +
+                    CapMin(tintColor.g , 0) * 255 / 205), 255);
+    c.b = (uint8_t) Cap((int) (((1.0 - brightness) * hitColor.b) +
+                    CapMin(tintColor.b , 0) * 255 / 205), 255);
     c.a = (uint8_t) 0xFF;
     return c;
   }
@@ -98,14 +101,16 @@ namespace Utils {
   // Transform a 3D Vector using a homogenous coord transform matrix
   // https://github.com/microsoft/referencesource/blob/master/System.Numerics/System/Numerics/Vector3.cs
   static Vector3D *transform(Vector3D position, Matrix4x4 matrix) {
-    return new Vector3D(position.x * matrix(0,0) + position.y * matrix(1,0) + position.z * matrix(2,0) + matrix(3,0),
-                        position.x * matrix(0,1) + position.y * matrix(1,1) + position.z * matrix(2,1) + matrix(3,1),
-                        position.x * matrix(0,2) + position.y * matrix(1,2) + position.z * matrix(2,2) + matrix(3,2)
-                        );
+    return new Vector3D(position.x * matrix(0, 0) + position.y * matrix(1, 0) +
+                                     position.z * matrix(2, 0) + matrix(3, 0),
+                        position.x * matrix(0, 1) + position.y * matrix(1, 1) +
+                                     position.z * matrix(2, 1) + matrix(3, 1),
+                        position.x * matrix(0, 2) + position.y * matrix(1, 2) +
+                                     position.z * matrix(2, 2) + matrix(3, 2));
   }
 
 
 
-  }
+  }  // namespace Utils
 
 #endif /* UTILS_H */

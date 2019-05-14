@@ -12,8 +12,7 @@ struct ThreadParams {
   SchwarzschildBlackHoleEquation *Equation;
 
   ThreadParams() {}
-
 };
 
 
-#endif //BLACKHOLERAYTRACER_THREADPARAMS_H
+#endif  // BLACKHOLERAYTRACER_THREADPARAMS_H

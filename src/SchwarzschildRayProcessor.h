@@ -13,8 +13,9 @@ using namespace std;
 using namespace cv;
 
 namespace BlackHoleRaytracer {
-  class SchwarzschildRayProcessor {
-  private:
+
+class SchwarzschildRayProcessor {
+ private:
       int width;
       int height;
       Scene *scene;
@@ -25,15 +26,13 @@ namespace BlackHoleRaytracer {
        std::vector<std::thread*> workerThreads;  ///< pool of worker threads
 
 
-  public:
-      SchwarzschildRayProcessor(int width, int height, Scene *scene, string outputFileName);
+ public:
+      SchwarzschildRayProcessor(int width, int height,
+          Scene *scene, string outputFileName);
       void Process();
       void RayTraceThread(ThreadParams &threadParams);
+};
 
-  };
+}  // namespace BlackHoleRaytracer
 
-
-
-}
-
-#endif //BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
+#endif  // BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
