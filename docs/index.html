@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Ray Tracing Black Holes – cs184</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://rsms.me/inter/inter.css" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.ico">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div style="margin-top: 8%; margin-left: 8%; margin-right: 9%; margin-bottom: 7%;">
+      <h1>Ray Tracing Black Holes</h1>
+      <p style="font-size: 2rem; font-weight: 400;">Elliot Han, Michael Tu, Alejandro Garcia</p>
+      <hr>
+      <h2>Abstract</h2>
+      <p>We created a C++ ray-tracer capable of creating images of a Schwarzschild black hole. We re-implemented an existing implementation of a C# project on C++ achieving a 6 times speed-up. </p>
+      <hr>
+      <h2>Technical approach</h2>
+      <p>
+          A black hole is an extreme astronomical object that has a gravitational field so intense that it bends the path of light rays. This causes all kinds of visible distortions in a phenomenon known as Gravitational Lensing. We rendered a Schwarzshild Black Hole which has with no charge or angular momentum.
+      </p>
+      <p>
+          This is a nonlinear raytracer as it works in a curved space We calculate the path of each ray in a stepwise fashion as we can no longer rely on the geometry of straight lines. In each time step we update the velocity & position of the ray using a linear equation that reduces the equations of motions for a null geodesic or massless particle around Schwarzschild black hole.
+
+      </p>
+      <p>
+        We ray trace by drawing a ray from the camera position to a pixel in our scene. However, instead of traveling in a straight line, our ray will curve based on our equation of motion. We step the ray and stop on intersection with our scene.
+      </p>
+      <p>
+        Our scene consists of primitives which the ray can intersect. These are the main parts of our black hole, the Accretion disk, Event horizon and the background sky. Upon intersection with a primitive, using texture mapping techniques we retrieve the rgb values for our pixels
+      </p>
+      <div class="row" style="margin-bottom: 3rem;">
+          <div class="six columns">
+            <img class="u-max-full-width" src="images/background1.png" alt="C# Implementation">
+          </div>
+          <div class="six columns">
+              <img class="u-max-full-width" src="images/background2.png" alt="C# Implementation">
+          </div>
+        </div>
+      <hr>
+      <h2>Results</h2>
+      <p>
+          There are several different black hole raytracers online including a famous python one, Starless and several in c#. One challenge are group faced in writing our own raytracer were finding suitable replacements for c++ that could replace things like numpy or microsoft’s system libraries. Our results payed off however as our raytracer was up to 6 times faster than a comparable c# project and twice as fast as Starless.
+      </p>
+      <p>
+          Going forwards, some things we could take on next are simulating Kerr black holes, a kind of black hole that spins, or rendering  diffuse bodies  like planets in our scene.
+      </p>
+      <div class="row" style="margin-bottom: 3rem;">
+        <div class="six columns">
+          <img class="u-max-full-width" src="images/cs_implementation.png" alt="C# Implementation">
+          <p>Brant’s C# implementation running on 8 threads rendering at 1920 by 1080:  294.67 s</p>
+        </div>
+        <div class="six columns">
+            <img class="u-max-full-width" src="images/cpp_implementation.png" alt="C# Implementation">
+          <p>
+            Our C++ implementation running on 8 threads
+            at 1920 by 1080 with the same textures: <b>53.25 s</b>
+          </p>
+        </div>
+      </div>
+      <!-- <div class="row" style="margin-bottom: 3rem;">
+          <h3>Animated Gifs</h3>
+          <img class="u-max-full-width" src="images/zoomingin_100frames.gif">
+          <img class="u-max-full-width" src="images/cosmic_200frames_5ms.gif">
+          <img class="u-max-full-width" src="images/supernova_xrotation_220_35ms.gif">
+      </div> -->
+      <div class="row" style="margin-bottom: 3rem;">
+        <h3>Additional Renderings with different textures</h3>
+        <img class="u-max-full-width" src="images/1.png">
+        <img class="u-max-full-width" src="images/2.png">
+        <img class="u-max-full-width" src="images/3.png">
+        <img class="u-max-full-width" src="images/4.png">
+      </div>
+      <hr>
+      <h2>References</h2>
+      <p>
+        <ul>
+          <li>
+            <a href="https://github.com/rantonels/starless">https://github.com/rantonels/starless</a>
+          </li>
+          <li>
+            <a href="https://gitlab.com/EuropeanSpaceAgency/PyHole">https://gitlab.com/EuropeanSpaceAgency/PyHole</a>
+          </li>
+          </li>
+          <li>
+              <b>Existing C# Implementation – </b> <a href="https://dmitrybrant.com/2018/12/11/ray-tracing-black-holes">https://dmitrybrant.com/2018/12/11/ray-tracing-black-holes</a>
+          </li>
+        </ul>
+      </p>
+      <hr>
+      <h2>Contributions from each team member</h2>
+      <p>
+        <ul>
+          <li><b>Eliot Han</b> – TODO</li>
+          <li><b>Michael Tu</b> – TODO</li>
+          <li><b>Alejandro Garcia</b> – Setup Program.cpp and Scene.cpp for rendering the black hole. Also, helped with project presentation and final write-up.</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
