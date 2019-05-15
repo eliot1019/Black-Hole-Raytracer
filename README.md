@@ -1,5 +1,6 @@
 # Black-Hole-Raytracer
-Raytracer for a Schwarzschild black hole
+Raytracer for a Schwarzschild black hole  
+
 [Writeup](https://eliot1019.github.io/Black-Hole-Raytracer/)
 
 ![lava_disk.jpg](https://github.com/eliot1019/Black-Hole-Raytracer/blob/master/samples/lava_disk.jpg)
