@@ -1,7 +1,6 @@
 #ifndef HORIZON_H
 #define HORIZON_H
 
-#include "CGL/CGL.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "../mappings/SphericalMapping.h"
 #include <opencv2/opencv.hpp>
@@ -9,7 +8,7 @@
 #include "IHitable.h"
 #include "../ArgbColor.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

@@ -1,13 +1,12 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
-#include "CGL/CGL.h"
 #include "Sky.h"
 #include "../mappings/SphericalMapping.h"
 #include "../utils.h"
 #include "../ArgbColor.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

@@ -4,12 +4,11 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "../SchwarzschildBlackHoleEquation.h"
-#include "CGL/CGL.h"
 #include "../mappings/SphericalMapping.h"
 #include "IHitable.h"
 #include "../ArgbColor.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

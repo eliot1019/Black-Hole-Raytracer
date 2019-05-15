@@ -1,7 +1,6 @@
 #ifndef BLACKHOLERAYTRACER_IHITABLE_H
 #define BLACKHOLERAYTRACER_IHITABLE_H
 
-#include "CGL/CGL.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "../ArgbColor.h"
 

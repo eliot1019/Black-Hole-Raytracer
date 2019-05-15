@@ -6,9 +6,8 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
-#include "CGL/CGL.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

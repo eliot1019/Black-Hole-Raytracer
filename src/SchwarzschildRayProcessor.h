@@ -1,20 +1,20 @@
 #ifndef BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
 #define BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
 
-#include "CGL/CGL.h"
 #include "SchwarzschildBlackHoleEquation.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include "ThreadParams.h"
 #include "Scene.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 
 namespace BlackHoleRaytracer {
-  class SchwarzschildRayProcessor {
-  private:
+
+class SchwarzschildRayProcessor {
+ private:
       int width;
       int height;
       Scene *scene;
@@ -25,15 +25,13 @@ namespace BlackHoleRaytracer {
        std::vector<std::thread*> workerThreads;  ///< pool of worker threads
 
 
-  public:
-      SchwarzschildRayProcessor(int width, int height, Scene *scene, string outputFileName);
+ public:
+      SchwarzschildRayProcessor(int width, int height,
+          Scene *scene, string outputFileName);
       void Process();
       void RayTraceThread(ThreadParams &threadParams);
+};
 
-  };
+}  // namespace BlackHoleRaytracer
 
-
-
-}
-
-#endif //BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H
+#endif  // BLACKHOLERAYTRACER_SCHWARZSCHILDRAYPROCESSOR_H

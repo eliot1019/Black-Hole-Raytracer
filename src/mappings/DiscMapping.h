@@ -3,9 +3,6 @@
 
 #include <iostream>
 
-#include "CGL/CGL.h"
-
-using namespace CGL;
 using namespace std;
 
 struct DiscMapping {
