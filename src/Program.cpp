@@ -36,8 +36,8 @@ int main(int argc, char** argv) {
 
   // Load image from given location and convert to 3 channel matrices.
   // Because of an issue with OpenCV on Mac, must use full path on your machine
-  Mat diskImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/images/disk_textured.png", 1);
-  Mat skyImg = imread("/Users/eliothan/cs/cs184/blackhole-raytracer/src/images/sky8k.jpg", 1);
+  Mat diskImg = imread("images/disk_textured.png", 1);
+  Mat skyImg = imread("images/sky8k.jpg", 1);
   Mat diskImgBmp, skyImgBmp;
   diskImg.convertTo(diskImgBmp, CV_8UC3);
   skyImg.convertTo(skyImgBmp, CV_8UC3);

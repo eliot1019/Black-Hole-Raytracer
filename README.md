@@ -4,11 +4,19 @@ Raytracer for a Schwarzschild black hole
 ![lava_disk.jpg](https://github.com/eliot1019/Black-Hole-Raytracer/samples/lava_disk.jpg")`
 
 ### Dependencies
-- [CGL](https://github.com/cal-cs184/p1-rasterizer/tree/master/CGL)
 - [OpenCV](https://opencv.org/releases/)
 
+### Running on Mac
+- Install [OpenCV](https://medium.com/@nuwanprabhath/installing-opencv-in-macos-high-sierra-for-python-3-89c79f0a246a) for Mac
+- Install CMake and Xcode Toolchain
+- Create a `build` folder in the root directory of the `Black-Hole-Raytracer` cloned repo
+- Run `cmake .` to generate the make file for the project
+- In src/Program.cpp, replace the input images for `DiskImg` and `SkyImg` with absolute paths on your machine (due to OpenCV on Mac bug)
+- Run `make` and run the blackholeraytracer executable
+ 
+
+
 ### Running on Windows
-- Clone this repo and place the CGL library inside the root directory
 - Install [Visual Studio 2017 with Visual Studio C++ Support](https://docs.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=vs-2017)
 - Install [CMake](https://cmake.org/download/)
 - Create a `build` folder in the root directory of the `Black-Hole-Raytracer` cloned repo
