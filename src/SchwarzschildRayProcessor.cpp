@@ -8,8 +8,7 @@
 #endif
 
 #include "SchwarzschildRayProcessor.h"
-#include "CGL/CGL.h"
-#include "CGL/Matrix4x4.h"
+#include "models/Matrix4x4.h"
 #include "SchwarzschildBlackHoleEquation.h"
 #include "ThreadParams.h"
 #include "Scene.h"
@@ -18,7 +17,7 @@
 #include "ArgbColor.h"
 
 
-using namespace CGL;
+using namespace Models;
 using namespace BlackHoleRaytracer;
 using namespace cv;
 

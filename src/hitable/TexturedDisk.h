@@ -1,7 +1,6 @@
 #ifndef BLACKHOLERAYTRACER_TEXTUREDDISK_H
 #define BLACKHOLERAYTRACER_TEXTUREDDISK_H
 
-#include "CGL/CGL.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "Disk.h"
 #include "../ArgbColor.h"
@@ -10,7 +9,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

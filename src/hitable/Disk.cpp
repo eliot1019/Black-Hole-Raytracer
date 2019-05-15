@@ -1,20 +1,19 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
-#include <CGL/vector3D.h>
 
 #ifdef _WIN32
 #include <corecrt_math_defines.h>
 #endif
 
 #include "Disk.h"
-#include "CGL/CGL.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "../utils.h"
 #include "../mappings/SphericalMapping.h"
 #include "../ArgbColor.h"
+#include "../models/Vector3D.h"
 
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

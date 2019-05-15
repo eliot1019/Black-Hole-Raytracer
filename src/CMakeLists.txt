@@ -10,7 +10,7 @@ set(APPLICATION_SOURCE
         hitable/Disk.cpp hitable/Disk.h hitable/TexturedDisk.h
         hitable/Horizon.h hitable/Horizon.cpp hitable/Sky.h hitable/Sky.cpp
         hitable/TexturedDisk.cpp SchwarzschildRayProcessor.h SchwarzschildRayProcessor.cpp
-        ThreadParams.h hitable/IHitable.h ArgbColor.cpp ArgbColor.h)
+        ThreadParams.h hitable/IHitable.h ArgbColor.cpp ArgbColor.h models/Matrix4x4.cpp models/Matrix4x4.h models/Vector4D.cpp models/Vector4D.h models/Vector3D.cpp models/Vector3D.h)
 
 # Eliot: not sure about this
 ## Windows-only sources
@@ -33,9 +33,6 @@ find_package(OpenCV REQUIRED)
 # Set include directories
 #-------------------------------------------------------------------------------
 include_directories(
-        ${GLEW_INCLUDE_DIRS}
-        ${GLFW_INCLUDE_DIRS}
-        ${CGL_INCLUDE_DIRS}
         ${FREETYPE_INCLUDE_DIRS}
         ${OpenCV_INCLUDE_DIRS}
 )
@@ -44,9 +41,6 @@ include_directories(
 # Set link directories
 #-------------------------------------------------------------------------------
 link_directories(
-        ${GLEW_LIBRARY_DIRS}
-        ${GLFW_LIBRARY_DIRS}
-        ${CGL_LIBRARY_DIRS}
         ${FREETYPE_LIBRARY_DIRS}
 )
 
@@ -56,9 +50,6 @@ link_directories(
 add_executable(blackholetracer ${APPLICATION_SOURCE})
 
 target_link_libraries( blackholetracer
-        CGL ${CGL_LIBRARIES}
-        glew ${GLEW_LIBRARIES}
-        glfw ${GLFW_LIBRARIES}
         ${OPENGL_LIBRARIES}
         ${FREETYPE_LIBRARIES}
         ${CMAKE_THREADS_INIT}

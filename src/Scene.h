@@ -1,15 +1,14 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "CGL/CGL.h"
-#include "CGL/Vector3D.h"
+#include "models/Vector3D.h"
 #include "hitable/IHitable.h"
 #include "utils.h"
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

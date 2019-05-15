@@ -5,7 +5,6 @@
 #endif
 
 #include "DiscMapping.h"
-#include "CGL/CGL.h"
 
 DiscMapping::DiscMapping(double rMin, double rMax, int sizeX, int sizeY) {
   if (sizeX == 0 || sizeY == 0) {

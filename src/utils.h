@@ -3,12 +3,11 @@
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
-#include "CGL/CGL.h"
-#include "CGL/Vector3D.h"
-#include "CGL/Matrix4x4.h"
+#include "models/Vector3D.h"
+#include "models/Matrix4x4.h"
 #include "ArgbColor.h"
 
-using namespace CGL;
+using namespace Models;
 using namespace std;
 using namespace cv;
 

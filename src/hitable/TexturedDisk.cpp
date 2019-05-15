@@ -1,5 +1,4 @@
 #include "TexturedDisk.h"
-#include "CGL/CGL.h"
 #include "../SchwarzschildBlackHoleEquation.h"
 #include "../utils.h"
 #include "../ArgbColor.h"
