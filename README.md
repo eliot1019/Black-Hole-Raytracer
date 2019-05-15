@@ -1,7 +1,8 @@
 # Black-Hole-Raytracer
 Raytracer for a Schwarzschild black hole
+[Writeup](https://eliot1019.github.io/Black-Hole-Raytracer/)
 
-![lava_disk.jpg](https://github.com/eliot1019/Black-Hole-Raytracer/samples/lava_disk.jpg")`
+![lava_disk.jpg](https://github.com/eliot1019/Black-Hole-Raytracer/blob/master/samples/lava_disk.jpg)
 
 ### Dependencies
 - [OpenCV](https://opencv.org/releases/)
