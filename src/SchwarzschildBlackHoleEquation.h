@@ -1,7 +1,7 @@
 #ifndef BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H
 #define BLACKHOLERAYTRACER_SCHWARZSCHILDBLACKHOLEEQUATION_H
 
-#include "models/vector3D.h"
+#include "models/Vector3D.h"
 
 #include <vector>
 
